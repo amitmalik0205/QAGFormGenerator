@@ -9,7 +9,7 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 
 @Generated("org.jsonschema2pojo")
-public class SimpleTemplateSections implements Serializable {
+public class SimpleTemplateQuestionSection implements Serializable {
 
 	private static final long serialVersionUID = -5206934179197797440L;
 		

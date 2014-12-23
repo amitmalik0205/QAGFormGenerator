@@ -1,8 +1,6 @@
 package com.qait.qag.formgenerator.simpletemplate.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Generated;
 
@@ -17,10 +15,10 @@ public class SimpleTemplateFormSpec implements Serializable {
 	private Integer formCode;
 	
 	@Expose
-	private List<SimpleTemplateSections> sections = new ArrayList<SimpleTemplateSections>();
+	private SimpleTemplateQuestionSection questionSection;
 	
 	@Expose
-	private List<SimpleTemplateSectionTopRight> sections_topright = new ArrayList<SimpleTemplateSectionTopRight>();
+	private SimpleTemplateSectionTopRight sections_topright = new SimpleTemplateSectionTopRight();
 
 	public Integer getFormCode() {
 		return formCode;
@@ -30,20 +28,19 @@ public class SimpleTemplateFormSpec implements Serializable {
 		this.formCode = formCode;
 	}
 
-	public List<SimpleTemplateSections> getSections() {
-		return sections;
+	public SimpleTemplateQuestionSection getQuestionSection() {
+		return questionSection;
 	}
 
-	public void setSections(List<SimpleTemplateSections> sections) {
-		this.sections = sections;
+	public void setQuestionSection(SimpleTemplateQuestionSection questionSection) {
+		this.questionSection = questionSection;
 	}
 
-	public List<SimpleTemplateSectionTopRight> getSections_topright() {
+	public SimpleTemplateSectionTopRight getSections_topright() {
 		return sections_topright;
 	}
 
-	public void setSections_topright(
-			List<SimpleTemplateSectionTopRight> sections_topright) {
+	public void setSections_topright(SimpleTemplateSectionTopRight sections_topright) {
 		this.sections_topright = sections_topright;
 	}
 }

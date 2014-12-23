@@ -6,20 +6,19 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionCh
 
 public class SimpleTemplateUtil {
 
-	public static int getMaximumQuestionOptions(List<SimpleTemplateQuestionChoice> question_opts) {
+	public static int getMaximumQuestionOptions(
+			List<SimpleTemplateQuestionChoice> question_opts) {
 		int max = 0;
-		
-		for(SimpleTemplateQuestionChoice questionChoice : question_opts) {
-			
-			char [] chrArr = questionChoice.getChoices().toCharArray();
+
+		for (SimpleTemplateQuestionChoice questionChoice : question_opts) {
+
+			char[] chrArr = questionChoice.getChoices().toCharArray();
 			int arrLength = chrArr.length;
-			
-			if(arrLength > max) {
+
+			if (arrLength > max) {
 				max = arrLength;
 			}
-		}		
+		}
 		return max;
 	}
-	
-	
 }
