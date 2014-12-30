@@ -2,14 +2,6 @@ package com.qait.qag.formgenerator.simpletemplate.constants;
 
 public interface SimpleTemplateConstants {
 	
-	public static String TEMPLATE_ID_TAG = "templateId";
-	
-	public static int NO_OF_QUESTIONS = 20;
-	
-	public static String QUESTION_OPTIONS = "abcde";
-	
-	public static String STUDENT_ID_OPTIONS = "abcdest23456789";
-	
 	//General constants
 	public static int RADIUS_OF_CIRCLE = 9;
 	
@@ -19,15 +11,41 @@ public interface SimpleTemplateConstants {
 	
 	public static int DISTANCE_BTW_TWO_CIRCLE_ROWS = 20;
 	
+	public static String TEMPLATE_ID_TAG = "templateId";
 	
-	// Left Section constants
-	public static int HORIZENTAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE = 20;  // x for outer rectangle
+		
+	//Outer Boundary Design constants
+	public static int HORIZENTAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE = 70;  // x for outer rectangle
 	
-	public static int VERTICAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE = 30;   // y for outer rectangle
-
-	public static int HORIZENTAL_DISTANCE_BTW_LABEL_AND_OUTER_LINE = 30;
+	public static int VERTICAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE = 100;   // y for outer rectangle
 	
-	public static int VERTICAL_DISTANCE_BTW_LABEL_AND_OUTER_LINE = 30;
+	public static String OUTER_LINE_STROKE = "black";
+	
+	public static String OUTER_LINE_FILL = "white";
+	
+	public static int OUTER_LINE_STROKE_WIDTH = 6;
+	
+		
+	//Student Name Label Design Constants
+	public static int VERTICAL_DISTANCE_BTW_NAME_LABEL_AND_OUTER_LINE = 10;
+	
+	public static int HORIZENTAL_DISTANCE_BTW_NAME_LABEL_AND_OUTER_LINE = 5;
+	
+	public static int NAME_LABEL_X = HORIZENTAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE + HORIZENTAL_DISTANCE_BTW_NAME_LABEL_AND_OUTER_LINE;
+			
+	public static int NAME_LABEL_Y = VERTICAL_DISTANCE_BTW_PAGE_AND_OUTER_LINE - VERTICAL_DISTANCE_BTW_NAME_LABEL_AND_OUTER_LINE;
+	
+	public static String NAME_LABEL_FONT_FAMILY = "Verdana";
+	
+	public static String NAME_LABEL_FILL = "Black";
+	
+	public static int NAME_LABEL_FONT_SIZE = 12;
+	
+	
+	// Question Section Label Constants
+	public static int HORIZENTAL_DISTANCE_BTW_LABEL_AND_OUTER_LINE = 40;
+	
+	public static int VERTICAL_DISTANCE_BTW_LABEL_AND_OUTER_LINE = 60;
 	
 	public static int WIDTH_OF_QUESTION_LABEL = 10;
 	

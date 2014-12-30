@@ -7,8 +7,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateConstants;
-import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateFormGenerator;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
+import com.qait.qag.formgenerator.simpletemplate.generator.SimpleTemplateFormGenerator;
 
 public class JsonReader {
 

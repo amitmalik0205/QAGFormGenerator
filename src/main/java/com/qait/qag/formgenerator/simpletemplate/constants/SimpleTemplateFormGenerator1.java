@@ -2,15 +2,13 @@ package com.qait.qag.formgenerator.simpletemplate.constants;
 
 import java.util.List;
 
-import com.google.gson.annotations.Expose;
-import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateFormSpec;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateInstance;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
 import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplateUtil;
 
-public class SimpleTemplateFormGenerator {
+public class SimpleTemplateFormGenerator1 {
 
 	private SimpleTemplateJsonParent jsonParent;
 
@@ -26,7 +24,7 @@ public class SimpleTemplateFormGenerator {
 
 	private int no_of_questions;
 
-	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {
+	public SimpleTemplateFormGenerator1(SimpleTemplateJsonParent jsonParent) {
 		this.jsonParent = jsonParent;
 		this.instances = jsonParent.getInstances();
 		this.formCode = jsonParent.getFormSpec().getFormCode();
