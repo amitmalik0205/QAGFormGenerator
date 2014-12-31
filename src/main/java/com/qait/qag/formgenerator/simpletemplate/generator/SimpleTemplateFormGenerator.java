@@ -60,13 +60,15 @@ public class SimpleTemplateFormGenerator {
 	}
 
 	
-	public void generateForm() {
+	public void generateForm() {				
 		
-		createFromBody();
+		int count = 0;
 		
 		for(SimpleTemplateInstance instance : instances) {
 			
-			formHtmlStr = new StringBuilder("<html><body><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>");
+			count++;
+			
+			formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
 			
 			formHtmlStr.append("<div id=\"container\" style=\""+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"\">");
 			
@@ -81,6 +83,11 @@ public class SimpleTemplateFormGenerator {
 			bottom = instance.getBottom();
 			
 			createHeaderSection();	
+			
+			//Generate form body only once and reuse it
+			if(count == 1) {
+				createFromBody();
+			}
 			
 			formHtmlStr.append(formHeaderHtmlStr);
 			
@@ -170,7 +177,7 @@ public class SimpleTemplateFormGenerator {
 	 */
 	private void createFromBody() {
 		
-		formBodyHtmlStr.append("<div id=\"body-div\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_WRAPPER_DIV_STYLE+"\">");
+		formBodyHtmlStr.append("<div id=\"body-div\" style=\""+SimpleTemplateBodyDesignConstants.BODY_DIV_STYLE+"\">");
 		
 		createTopDivOfBody();
 		
@@ -194,16 +201,15 @@ public class SimpleTemplateFormGenerator {
 	
 	private void createStudentIdOptionsSection() {
 		
-		formBodyHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"\">");
-		
-		formBodyHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"\">");
-				
+		formBodyHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"\">");		
 		
 		char studentIdArr[] = simpleTemplateId.getStudentId().toCharArray();
 		int student_id_length = sections_topright.getDigits();
 		char studentOptionsArr[] = sections_topright.getChoices().toCharArray();
 		
 		for(int i = 0 ; i<student_id_length; i++) {
+			
+			formBodyHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"\">");
 			
 			char char_of_student_id = studentIdArr[i];
 			
@@ -219,8 +225,10 @@ public class SimpleTemplateFormGenerator {
 					formBodyHtmlStr.append("</div>");
 				}
 			}
+			
+			formBodyHtmlStr.append("</div>"); // End student-id-option-column-container div
 		}
 		
-		formBodyHtmlStr.append("</div></div>"); // End student-id-option-container, student-id-option-column-container div
+		formBodyHtmlStr.append("</div>"); // End student-id-option-container div
 	}
 }
