@@ -10,6 +10,9 @@ import com.google.gson.annotations.Expose;
 public class SimpleTemplateQuestionChoice implements Serializable {
 
 	private static final long serialVersionUID = -7404162167322017211L;
+	
+	@Expose
+	private String label;
 
 	@Expose
 	private String choices;
@@ -21,4 +24,12 @@ public class SimpleTemplateQuestionChoice implements Serializable {
 	public void setChoices(String choices) {
 		this.choices = choices;
 	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}	
 }

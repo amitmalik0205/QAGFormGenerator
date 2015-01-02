@@ -13,7 +13,7 @@ public interface SimpleTemplateHeaderDesignConstants {
 
 	String STUDENT_ID_TABLE_WRAPPER_DIV_STYLE = "margin:0; padding:0px; width:100%;	border:1px solid #000000";
 
-	String STUDENT_ID_TABLE_STYLE = "border-collapse:collapse; border-spacing:0px; width:100%; height:100%; margin:0px; padding:0px;";
+	String STUDENT_ID_TABLE_STYLE = "border-collapse:collapse; border-spacing:0px; width:100%; margin:0px; padding:0px;";
 
 	String STUDENT_ID_TABLE_TD_STYLE = "vertical-align:middle; text-align:center; border:1px solid rgb(0, 0, 0); padding:7px; width:16px;"
 			+ "font-size:10px; font-family:Arial; font-weight:normal; color:rgb(0, 0, 0);";

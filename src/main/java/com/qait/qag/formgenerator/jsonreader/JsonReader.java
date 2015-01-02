@@ -18,7 +18,7 @@ public class JsonReader {
 		
 		try {
 			
-			JsonObject jsonObject = (JsonObject)jsonParser.parse(new FileReader("C:\\Amit\\QAG\\long_json.txt"));
+			JsonObject jsonObject = (JsonObject)jsonParser.parse(new FileReader("C:\\Amit\\QAG\\long_json_2.txt"));
 			String jsonStr = jsonObject.toString();
 			
 			JsonElement jsonElement = jsonObject.get(SimpleTemplateConstants.TEMPLATE_ID_TAG);

@@ -8,9 +8,9 @@ import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateHeaderD
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateID;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateInstance;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
+import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
-import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplateUtil;
 
 public class SimpleTemplateFormGenerator {
 	
@@ -24,10 +24,6 @@ public class SimpleTemplateFormGenerator {
 
 	private SimpleTemplateSectionTopRight sections_topright;
 
-	private int max_number_of_options;
-
-	private int no_of_questions;
-	
 	private StringBuilder formHtmlStr;
 	
 	private StringBuilder formHeaderHtmlStr;
@@ -51,10 +47,6 @@ public class SimpleTemplateFormGenerator {
 		this.questionSection = jsonParent.getFormSpec().getQuestionSection();
 		
 		this.sections_topright = jsonParent.getFormSpec().getSections_topright();
-		this.no_of_questions = questionSection.getCount();
-
-		this.max_number_of_options = SimpleTemplateUtil
-				.getMaximumQuestionOptions(questionSection.getQuestion_opts());		
 		
 		formBodyHtmlStr = new StringBuilder("");
 	}
@@ -195,6 +187,8 @@ public class SimpleTemplateFormGenerator {
 		
 		createStudentIdOptionsSection();
 		
+		createQuestionOptionsSection();
+		
 		formBodyHtmlStr.append("</div>"); //End top div
 	}
 	
@@ -216,11 +210,11 @@ public class SimpleTemplateFormGenerator {
 			for(int j = 0 ; j<studentOptionsArr.length; j++) {
 				
 				if(studentOptionsArr[j] == char_of_student_id) {
-					formBodyHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateGeneralConstants.CIRCLE_BLACK_STYLE+"\">");				
+					formBodyHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE+"\">");				
 					formBodyHtmlStr.append("</div>");
 				} else {
 					//Draw text circle
-					formBodyHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateGeneralConstants.CIRCLE_WITH_TEXT_STYLE+"\">");
+					formBodyHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID+"\">");
 					formBodyHtmlStr.append(studentOptionsArr[j]);
 					formBodyHtmlStr.append("</div>");
 				}
@@ -230,5 +224,159 @@ public class SimpleTemplateFormGenerator {
 		}
 		
 		formBodyHtmlStr.append("</div>"); // End student-id-option-container div
+	}
+	
+	
+	/**
+	 * Method to start building question option section
+	 */
+	private void createQuestionOptionsSection() {
+		
+		StringBuilder questionOptionDivStyle = new StringBuilder(
+				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_STYLE);
+		
+		int available_width = getAvailableWidthForQuestionOptionSection();
+		
+		questionOptionDivStyle.append("width:"+available_width+"px");
+		
+		formBodyHtmlStr.append("<div id=\"question-option-div\" style=\""+questionOptionDivStyle.toString()+"\">");
+		
+		createQuestionOptionSectionColumn();
+		
+		formBodyHtmlStr.append("</div>");
+	}
+	
+	
+	/**
+	 * Method to create question option column
+	 */
+	private void createQuestionOptionSectionColumn() {
+		
+		StringBuilder questionOptionColumnStyle = new StringBuilder(
+				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_COLUMN_DIV_STYLE);
+		
+		int width_question_option_column = calculateMaxWidthForQuestionOptionColumn();
+
+		questionOptionColumnStyle.append("width:"+width_question_option_column+"px");
+		
+		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+questionOptionColumnStyle.toString()+"\">");
+		
+		List<SimpleTemplateQuestionChoice> question_opts = questionSection.getQuestion_opts();
+		
+		for(SimpleTemplateQuestionChoice questionChoice : question_opts) {
+			createQuestionOptionRow(questionChoice);
+		}
+		
+		formBodyHtmlStr.append("</div>");
+	}
+	
+	
+	/**
+	 * Method to create question options row. Method will create question label
+	 * and circles as options
+	 */
+	private void createQuestionOptionRow(SimpleTemplateQuestionChoice questionChoice) {
+		
+		StringBuilder questionOptionRowStyle = new StringBuilder(
+				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_DIV_STYLE);
+		
+		int min_width = calculateMaxWidthForQuestionOptionColumn()
+				- SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_DIV_MIN_WIDTH_CONSTANT;
+		
+		questionOptionRowStyle.append("min-width:"+min_width+"px");
+		
+		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+questionOptionRowStyle.toString()+"\">");
+		
+		createQuestionOptionLabel(questionChoice.getLabel());
+		
+		char choiceArr[] = questionChoice.getChoices().toCharArray();
+		
+		for(char c : choiceArr) {
+			createQuestionOptionCircle(new Character(c).toString());
+		}
+		
+		formBodyHtmlStr.append("</div>");
+	}
+	
+	
+	/**
+	 * Method to create question label
+	 * @param label
+	 */
+	private void createQuestionOptionLabel(String label) {
+		
+		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+SimpleTemplateBodyDesignConstants.QUESTION_LABEL_DIV_STYLE+"\">");
+		
+		formBodyHtmlStr.append(label);
+		
+		formBodyHtmlStr.append("</div>");
+	}
+	
+	
+	private void createQuestionOptionCircle(String text) {
+		
+		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_QUESTION+"\">");
+		
+		formBodyHtmlStr.append(text);
+		
+		formBodyHtmlStr.append("</div>");
+	}
+	
+	
+	/**
+	 * Method will calculate the width of Student id option section
+	 * @return
+	 */
+	private int getStudentIdOptionsSectionWidth() {
+		
+		int student_id_length = sections_topright.getDigits();
+		
+		return student_id_length
+				* SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_WIDTH;
+	}
+	
+	
+	/**
+	 * Method will calculate how much space is available for question option
+	 * section after student id section is constructed
+	 * @return
+	 */
+	private int getAvailableWidthForQuestionOptionSection() {		
+		int student_id_option_section_width = getStudentIdOptionsSectionWidth();
+		int container_max_width = SimpleTemplateGeneralConstants.CONTAINER_DIV_MAX_WIDTH;
+		
+		return container_max_width - student_id_option_section_width - 
+				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_WIDTH_CONSTANT;
+	}
+	
+	
+	/**
+	 * Method will first find which question has maximum number of options and
+	 * then calculate the width for that row. This will be set as the width of
+	 * question option column section div
+	 * @return
+	 */
+	private int calculateMaxWidthForQuestionOptionColumn() {		
+		int max_options = getMaximumQuestionOptions();
+		
+		return (max_options*SimpleTemplateBodyDesignConstants.QUESTION_OPTION_CIRCLE_WIDTH)
+				+ SimpleTemplateBodyDesignConstants.QUESTION_LABEL_WIDTH;
+	}
+	
+	
+	private int getMaximumQuestionOptions() {
+		
+		int max = 0;
+		
+		for (SimpleTemplateQuestionChoice questionChoice : questionSection.getQuestion_opts()) {
+
+			char[] chrArr = questionChoice.getChoices().toCharArray();
+			int arrLength = chrArr.length;
+
+			if (arrLength > max) {
+				max = arrLength;
+			}
+		}
+		return max;
 	}
 }
