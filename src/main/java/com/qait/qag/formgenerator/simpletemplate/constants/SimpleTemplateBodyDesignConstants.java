@@ -6,7 +6,7 @@ public interface SimpleTemplateBodyDesignConstants {
 	String BODY_DIV_STYLE = "width:100%";
 	
 	//Wrapper div for question options and student id options
-	String TOP_DIV_STYLE = "display:inline-block; width:100%";
+	String TOP_DIV_STYLE = "display:inline-block; width:100%; border: 3px solid";
 	
 	//Wrapper div for form id section
 	String BOTTOM_DIV_STYLE = "border-top:2px solid; height:98px; width:600px;";

@@ -38,7 +38,7 @@ public class SimpleTemplateFormGenerator {
 	
 	private SimpleTemplateID simpleTemplateId;
 	
-
+	
 	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {	
 		
 		this.jsonParent = jsonParent;
@@ -235,38 +235,82 @@ public class SimpleTemplateFormGenerator {
 		StringBuilder questionOptionDivStyle = new StringBuilder(
 				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_STYLE);
 		
-		int available_width = getAvailableWidthForQuestionOptionSection();
+		int avilable_space_for_question_section = getAvailableWidthForQuestionOptionSection();
 		
-		questionOptionDivStyle.append("width:"+available_width+"px");
+		questionOptionDivStyle.append("width:"+avilable_space_for_question_section+"px");
 		
 		formBodyHtmlStr.append("<div id=\"question-option-div\" style=\""+questionOptionDivStyle.toString()+"\">");
 		
-		createQuestionOptionSectionColumn();
+		/**
+		 * Below we will check how many columns can be created in the available
+		 * space. If a column can be accommodated then create it.
+		 */
+		int max_columns_can_be_created = getMaxColumnCount();
+
+		// AP formula a+(n-1)d
+		// Here we will check if all the questions can be arranged in
+		// max_columns with in avilable_space_for_question_section
+		int a_lower_bound = 1;
+		int a_upper_bound = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+		int d = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+
+		for (int n = 1; n <= max_columns_can_be_created; n++) {
+
+			int an_lower_bound = a_lower_bound + (n - 1) * d;
+			int an_upper_bound = a_upper_bound + (n - 1) * d;
+
+			// Maximum width for a question option column in range
+			// an_lower_bound -
+			// an_upper_bound
+			int an_column_width = calculateMaxWidthForQuestionOptionColumn(
+					an_lower_bound, an_upper_bound);
+
+			// If column can be fit in available space then create it and update
+			// available space
+			if (an_column_width <= avilable_space_for_question_section) {
+				avilable_space_for_question_section -= an_column_width;
+
+				createQuestionOptionSectionColumn(an_column_width,
+						an_lower_bound, an_upper_bound);
+			}
+		}
 		
 		formBodyHtmlStr.append("</div>");
 	}
 	
 	
 	/**
-	 * Method to create question option column
+	 * Method to create question option column. Column will contain the question
+	 * in a range specified by @param questionLowerBound, @param
+	 * questionUpperBound
+	 * 
+	 * @param width_of_question_option_column
+	 *            -- Width of the div to set
+	 * @param questionLowerBound
+	 *            -- First question number in column
+	 * @param questionUpperBound
+	 *            -- Last question number in column
 	 */
-	private void createQuestionOptionSectionColumn() {
+	private void createQuestionOptionSectionColumn(
+			int width_of_question_option_column, int questionLowerBound,
+			int questionUpperBound) {
 		
 		StringBuilder questionOptionColumnStyle = new StringBuilder(
 				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_COLUMN_DIV_STYLE);
 		
-		int width_question_option_column = calculateMaxWidthForQuestionOptionColumn();
-
-		questionOptionColumnStyle.append("width:"+width_question_option_column+"px");
+		questionOptionColumnStyle.append("width:"+width_of_question_option_column+"px");
 		
 		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+questionOptionColumnStyle.toString()+"\">");
 		
 		List<SimpleTemplateQuestionChoice> question_opts = questionSection.getQuestion_opts();
-		
-		for(SimpleTemplateQuestionChoice questionChoice : question_opts) {
-			createQuestionOptionRow(questionChoice);
+	
+		for (int i = questionLowerBound - 1; i < questionUpperBound; i++) {
+			SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
+			
+			createQuestionOptionRow(questionChoice,
+					width_of_question_option_column);
 		}
-		
+
 		formBodyHtmlStr.append("</div>");
 	}
 	
@@ -275,17 +319,19 @@ public class SimpleTemplateFormGenerator {
 	 * Method to create question options row. Method will create question label
 	 * and circles as options
 	 */
-	private void createQuestionOptionRow(SimpleTemplateQuestionChoice questionChoice) {
+	private void createQuestionOptionRow(
+			SimpleTemplateQuestionChoice questionChoice,
+			int width_of_question_option_column) {
 		
 		StringBuilder questionOptionRowStyle = new StringBuilder(
 				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_DIV_STYLE);
-		
-		int min_width = calculateMaxWidthForQuestionOptionColumn()
+
+		int min_width = width_of_question_option_column
 				- SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_DIV_MIN_WIDTH_CONSTANT;
+
+		questionOptionRowStyle.append("min-width:" + min_width + "px");
 		
-		questionOptionRowStyle.append("min-width:"+min_width+"px");
-		
-		formBodyHtmlStr.append("<div id=\"question-option-column-div\" style=\""+questionOptionRowStyle.toString()+"\">");
+		formBodyHtmlStr.append("<div id=\"question-option-row-div\" style=\""+questionOptionRowStyle.toString()+"\">");
 		
 		createQuestionOptionLabel(questionChoice.getLabel());
 		
@@ -356,19 +402,34 @@ public class SimpleTemplateFormGenerator {
 	 * question option column section div
 	 * @return
 	 */
-	private int calculateMaxWidthForQuestionOptionColumn() {		
-		int max_options = getMaximumQuestionOptions();
+	private int calculateMaxWidthForQuestionOptionColumn(int lowerBound, int upperBound) {		
+		int max_options = getMaximumQuestionOptions(lowerBound, upperBound);
 		
 		return (max_options*SimpleTemplateBodyDesignConstants.QUESTION_OPTION_CIRCLE_WIDTH)
 				+ SimpleTemplateBodyDesignConstants.QUESTION_LABEL_WIDTH;
 	}
 	
 	
-	private int getMaximumQuestionOptions() {
-		
+	/**
+	 * Method to get the question which has max num of options with in a range.
+	 * We will iterate through loop in between @param lowerBound and @param
+	 * upperBound
+	 * 
+	 * @param lowerBound
+	 *            -- lower bound for list
+	 * @param upperBound
+	 *            -- upper bound for list
+	 * @return
+	 */
+	private int getMaximumQuestionOptions(int lowerBound, int upperBound) {
+
 		int max = 0;
-		
-		for (SimpleTemplateQuestionChoice questionChoice : questionSection.getQuestion_opts()) {
+
+		List<SimpleTemplateQuestionChoice> question_opts = questionSection
+				.getQuestion_opts();
+
+		for (int i = lowerBound - 1; i < upperBound; i++) {
+			SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
 
 			char[] chrArr = questionChoice.getChoices().toCharArray();
 			int arrLength = chrArr.length;
@@ -377,6 +438,30 @@ public class SimpleTemplateFormGenerator {
 				max = arrLength;
 			}
 		}
+
 		return max;
+	}
+	
+	
+	/**
+	 * Method find in how many columns all the question can be arranged
+	 * 
+	 * @return
+	 */
+	private int getMaxColumnCount() {
+
+		int no_of_questions = questionSection.getCount();
+		
+		int max_columns = no_of_questions
+				/ SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+		
+		int mod = no_of_questions
+				% SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+
+		if (mod > 0) {
+			max_columns = max_columns + 1;
+		}
+
+		return max_columns;
 	}
 }
