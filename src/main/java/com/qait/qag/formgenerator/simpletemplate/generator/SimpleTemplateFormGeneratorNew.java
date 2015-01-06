@@ -1,5 +1,6 @@
 package com.qait.qag.formgenerator.simpletemplate.generator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,8 @@ import org.apache.log4j.Logger;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateBodyDesignConstants;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateGeneralConstants;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateHeaderDesignConstants;
+import com.qait.qag.formgenerator.simpletemplate.domain.ColumnDetail;
+import com.qait.qag.formgenerator.simpletemplate.domain.PageDetail;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateID;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateInstance;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
@@ -14,7 +17,7 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionCh
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
 
-public class SimpleTemplateFormGenerator {
+public class SimpleTemplateFormGeneratorNew {
 	
 	private static final Logger logger =Logger.getLogger(SimpleTemplateFormGenerator.class);
 	
@@ -46,8 +49,11 @@ public class SimpleTemplateFormGenerator {
 	
 	private SimpleTemplateID simpleTemplateId;
 	
+	private List<PageDetail> pageDetailList;
 	
-	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {	
+	private PageDetail currentPageDetail;
+	
+	public SimpleTemplateFormGeneratorNew(SimpleTemplateJsonParent jsonParent) {	
 		
 		this.jsonParent = jsonParent;
 		this.instances = jsonParent.getInstances();
@@ -55,10 +61,14 @@ public class SimpleTemplateFormGenerator {
 		this.questionSection = jsonParent.getFormSpec().getQuestionSection();
 		
 		this.sections_topright = jsonParent.getFormSpec().getSections_topright();
+		
+		pageDetailList = new ArrayList<PageDetail>();
 	}
 
 	
-	public void generateForm() {				
+	public void generateForm() {
+		
+		createPageDetails();
 		
 		int count = 0;
 		
@@ -66,35 +76,43 @@ public class SimpleTemplateFormGenerator {
 			
 			count++;
 			
-			formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+			for(PageDetail pageDetail : pageDetailList) {
+				
+				currentPageDetail = pageDetail;
+				
+				formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+				
+				formHtmlStr.append("<div id=\"container\" style=\""+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"\">");
+				
+				formHeaderHtmlStr = new StringBuilder("");
+				
+				formFooterHtmlStr = new StringBuilder("");
+				
+				simpleTemplateId = instance.getIds();
+				
+				top = instance.getTop();
+				
+				bottom = instance.getBottom();
+				
+				createHeaderSection();	
+				
+				createFromBody();
+				
+				formHtmlStr.append(formHeaderHtmlStr);
+				
+				formHtmlStr.append(formBodyHtmlStr);
+				
+				formHtmlStr.append(formFooterHtmlStr);
+				
+				formHtmlStr.append("</div></body></html>");
+				
+				if(count > 14) {
+					System.out.println(formHtmlStr);
+				}
+								
+			}	
 			
-			formHtmlStr.append("<div id=\"container\" style=\""+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"\">");
-			
-			formHeaderHtmlStr = new StringBuilder("");
-			
-			formFooterHtmlStr = new StringBuilder("");
-			
-			simpleTemplateId = instance.getIds();
-			
-			top = instance.getTop();
-			
-			bottom = instance.getBottom();
-			
-			createHeaderSection();	
-			
-			createFromBody();
-			
-			formHtmlStr.append(formHeaderHtmlStr);
-			
-			formHtmlStr.append(formBodyHtmlStr);
-			
-			formHtmlStr.append(formFooterHtmlStr);
-			
-			formHtmlStr.append("</div></body></html>");
-			
-			System.out.println(formHtmlStr);
-			
-			break;
+			//break;
 		}					
 	}
 	
@@ -178,7 +196,7 @@ public class SimpleTemplateFormGenerator {
 		
 		createTopDivOfBody();
 		
-		formBodyHtmlStr.append("</div>"); //End doy div
+		formBodyHtmlStr.append("</div>"); 
 	}
 	
 	
@@ -254,43 +272,12 @@ public class SimpleTemplateFormGenerator {
 		
 		formQuestionOptionsHtmlStr.append("<div id=\"question-option-div\" style=\""+questionOptionDivStyle.toString()+"\">");
 		
-		/**
-		 * Below we will check how many columns can be created in the available
-		 * space. If a column can be accommodated then create it.
-		 */
-		int max_columns_can_be_created = getMaxColumnCount();
-
-		// AP formula a+(n-1)d
-		// Here we will check if all the questions can be arranged in
-		// max_columns with in avilable_space_for_question_section
-		int a_lower_bound = 1;
-		int a_upper_bound = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
-		int d = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
-
-		for (int n = 1; n <= max_columns_can_be_created; n++) {
-
-			int an_lower_bound = a_lower_bound + (n - 1) * d;
-			int an_upper_bound = a_upper_bound + (n - 1) * d;
-
-			// Maximum width for a question option column in range
-			// an_lower_bound -
-			// an_upper_bound
-			int an_column_width = calculateMaxWidthForQuestionOptionColumn(
-					an_lower_bound, an_upper_bound);
-
-			// If column can be fit in available space then create it and update
-			// available space
-			if (an_column_width <= avilable_space_for_question_section) {
-				avilable_space_for_question_section -= an_column_width;
-
-				createQuestionOptionSectionColumn(an_column_width,
-						an_lower_bound, an_upper_bound);
-			} else {
-				
-				//Move to second page
-				//Create new page object..Assign avilable_space_for_question_section to max
-				//Check find max option width column
-			}
+		List<ColumnDetail> columnDetailList = currentPageDetail.getColumnList();
+		
+		for (ColumnDetail columnDetail : columnDetailList) {
+			
+			createQuestionOptionSectionColumn(columnDetail.getColumnWidth(),
+					columnDetail.getLowerBound(), columnDetail.getUppderBound());
 		}
 		
 		formQuestionOptionsHtmlStr.append("</div>");
@@ -481,5 +468,98 @@ public class SimpleTemplateFormGenerator {
 		}
 
 		return max_columns;
+	}
+
+
+	/**
+	 * Method prepares a list of PageDetail objects which contains how many
+	 * question option columns are on a page and question ranges in each column
+	 */
+	private void createPageDetails() {
+
+		int max_avilable_space_for_question_section = getAvailableWidthForQuestionOptionSection();
+
+		int remaining_avilable_space_for_question_section = max_avilable_space_for_question_section;
+
+		/**
+		 * Below we will check how many columns can be created in the available
+		 * space. If a column can be accommodated then create it.
+		 */
+		int max_columns_can_be_created = getMaxColumnCount();
+
+		// AP formula a+(n-1)d
+		// Here we will check if all the questions can be arranged in
+		// max_columns with in avilable_space_for_question_section
+		int a_lower_bound = 1;
+		int a_upper_bound = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+		int d = SimpleTemplateGeneralConstants.MAX_QUESTION_IN_COLUMN;
+
+		PageDetail pageDetail = new PageDetail();
+		int pageCounter = 1;
+		boolean pageCreated = false;
+
+		for (int n = 1; n <= max_columns_can_be_created; n++) {
+
+			int an_lower_bound = a_lower_bound + (n - 1) * d;
+			int an_upper_bound = a_upper_bound + (n - 1) * d;
+
+			// Maximum width for a question option column in range
+			// an_lower_bound -
+			// an_upper_bound
+			int an_column_width = calculateMaxWidthForQuestionOptionColumn(
+					an_lower_bound, an_upper_bound);
+
+			// If column can be fit in available space
+			if (an_column_width > max_avilable_space_for_question_section) {
+
+				System.out.println("Question can not fit in any of the page");
+
+			} else {
+
+				pageCreated = true;
+
+				if (an_column_width <= remaining_avilable_space_for_question_section) {
+					
+					addColumnToPageDetail(pageDetail, an_column_width,
+							an_upper_bound, an_lower_bound);
+					
+					remaining_avilable_space_for_question_section -= an_column_width;
+					
+				} else {
+					
+					// current page is completed so add it to list
+					pageDetail.setPageNo(pageCounter);
+					pageDetailList.add(pageDetail);
+					
+					// Create new page
+					pageCounter++;
+					pageDetail = new PageDetail();
+					
+					addColumnToPageDetail(pageDetail, an_column_width,
+							an_upper_bound, an_lower_bound);
+					
+					remaining_avilable_space_for_question_section = max_avilable_space_for_question_section
+							- an_column_width;
+				}
+			}
+		}
+
+		if (pageCreated) {
+			pageDetail.setPageNo(pageCounter);
+			pageDetailList.add(pageDetail); // add last page to list
+		}
+	}
+	
+	private void addColumnToPageDetail(PageDetail pageDetail, int columnWidth, int ub, int lb) {
+		
+		ColumnDetail columnDetail = new ColumnDetail();
+		
+		columnDetail.setColumnWidth(columnWidth);
+		
+		columnDetail.setLowerBound(lb);
+		
+		columnDetail.setUppderBound(ub);
+		
+		pageDetail.getColumnList().add(columnDetail);
 	}
 }
