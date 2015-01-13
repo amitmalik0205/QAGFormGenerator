@@ -105,6 +105,8 @@ public class SimpleTemplateFormGeneratorNew {
 				
 				createFromBody();
 				
+				createFooter();
+				
 				formHtmlStr.append(formHeaderHtmlStr);
 				
 				formHtmlStr.append(formBodyHtmlStr);
@@ -243,7 +245,9 @@ public class SimpleTemplateFormGeneratorNew {
 			
 			char char_of_student_id = studentIdArr[i];
 			
-			for(int j = 0 ; j<studentOptionsArr.length; j++) {
+			int j = 0;
+			
+			for( ; j<studentOptionsArr.length-1; j++) {
 				
 				if(studentOptionsArr[j] == char_of_student_id) {
 					formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE+"\">");				
@@ -254,6 +258,17 @@ public class SimpleTemplateFormGeneratorNew {
 					formStudentIdOptionsHtmlStr.append(studentOptionsArr[j]);
 					formStudentIdOptionsHtmlStr.append("</div>");
 				}
+			}
+			
+			//Last circle need some bottom margin so draw it separately
+			if(studentOptionsArr[j] == char_of_student_id) {
+				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE_BOTTOM+"\">");				
+				formStudentIdOptionsHtmlStr.append("</div>");
+			} else {
+				//Draw text circle
+				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID_BOTTOM+"\">");
+				formStudentIdOptionsHtmlStr.append(studentOptionsArr[j]);
+				formStudentIdOptionsHtmlStr.append("</div>");
 			}
 			
 			formStudentIdOptionsHtmlStr.append("</div>"); // End student-id-option-column-container div
@@ -712,5 +727,15 @@ public class SimpleTemplateFormGeneratorNew {
 			
 			formIdHtmlStr.append("</div>"); 
 		}
+	}
+	
+	
+	private void createFooter() {
+		
+		formFooterHtmlStr.append("<div id=\"footer-div\" style=\""+SimpleTemplateBodyDesignConstants.FOOTER_DIV_STYLE+"\">");
+		
+		formFooterHtmlStr.append(bottom);
+		
+		formFooterHtmlStr.append("</div>"); 
 	}
 }

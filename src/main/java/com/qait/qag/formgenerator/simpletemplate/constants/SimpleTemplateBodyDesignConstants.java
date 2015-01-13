@@ -14,7 +14,7 @@ public interface SimpleTemplateBodyDesignConstants {
 	 * Constants for student id options section
 	 */	
 	//Wrapper div for student id options section
-	String STUDENT_ID_OPTION_CONTAINER_STYLE = "display:inline-block; float:right; border:1px solid; border-top:none; border-right:none; ";		
+	String STUDENT_ID_OPTION_CONTAINER_STYLE = "display:inline-block; float:right; border:1px solid; border-top:none; border-right:none; margin-bottom:10px; ";		
 	
 	String STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE = "float:left; text-align:center; border-right-width:1px; "
 			+ "border-right-style:solid; border-right-color:rgb(0, 0, 0);";
@@ -23,10 +23,19 @@ public interface SimpleTemplateBodyDesignConstants {
 	String CIRCLE_BLACK_STYLE = "border:2px solid; width:14px; height:14px; line-height:14px; border-radius:9px; "
 			+ "margin:6px 6px 0px; background-color: rgb(0, 0, 0)";
 	
+	//Black Circle with bottom margin
+	String CIRCLE_BLACK_STYLE_BOTTOM = "border:2px solid; width:14px; height:14px; line-height:14px; border-radius:9px; "
+				+ "margin:6px 6px 5px; background-color: rgb(0, 0, 0)";
+	
 	
 	//circle with text for student id option
 	String CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID = "border:2px solid; width:14px; height:14px; line-height:14px; border-radius:9px; "
 			+ "margin:6px 6px 0px; font-family:Arial; font-size:14px; text-align:center;";
+	
+	//circle with text for student id option with bottom margin
+	String CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID_BOTTOM = "border:2px solid; width:14px; height:14px; line-height:14px; border-radius:9px; "
+			+ "margin:6px 6px 5px; font-family:Arial; font-size:14px; text-align:center;";
+	
 	
 	int STUDENT_ID_OPTION_COLUMN_WIDTH = 31;
 	
@@ -174,4 +183,7 @@ public interface SimpleTemplateBodyDesignConstants {
 			+ "background-position:"+FIVE_IMAGE_POSITION+"; \"></div>" +
 			"<div style=\"width:18px; height:18px; margin:6px 6px 0px; float:left; background-image:url("+CIRCLE_IMAGE_PATH+"); "
 			+ "background-position:"+FOUR_IMAGE_POSITION+"; \"></div>";
+	
+	
+	String FOOTER_DIV_STYLE = "width:100%";
 }
