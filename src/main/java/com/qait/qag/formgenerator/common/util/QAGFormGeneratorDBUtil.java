@@ -33,6 +33,7 @@ public class QAGFormGeneratorDBUtil {
 		try {
 			
 			con = DriverManager.getConnection(connectionUrl, dbUser, dbPwd);
+			con.setAutoCommit(false);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

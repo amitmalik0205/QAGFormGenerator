@@ -1,7 +1,9 @@
 package com.qait.qag.formgenerator.simpletemplate.generator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +18,7 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
+import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplateUtil;
 
 public class SimpleTemplateFormGeneratorNew {
 	
@@ -53,6 +56,10 @@ public class SimpleTemplateFormGeneratorNew {
 	
 	private PageDetail currentPageDetail;
 	
+	private StringBuilder formIdHtmlStr;
+	
+	private Map<String, String> numbersMap;
+	
 	public SimpleTemplateFormGeneratorNew(SimpleTemplateJsonParent jsonParent) {	
 		
 		this.jsonParent = jsonParent;
@@ -63,6 +70,8 @@ public class SimpleTemplateFormGeneratorNew {
 		this.sections_topright = jsonParent.getFormSpec().getSections_topright();
 		
 		pageDetailList = new ArrayList<PageDetail>();
+		
+		numbersMap = new HashMap<String, String>();
 	}
 
 	
@@ -70,11 +79,9 @@ public class SimpleTemplateFormGeneratorNew {
 		
 		createPageDetails();
 		
-		int count = 0;
+		initalizeNumbersMap();
 		
 		for(SimpleTemplateInstance instance : instances) {
-			
-			count++;
 			
 			for(PageDetail pageDetail : pageDetailList) {
 				
@@ -106,13 +113,11 @@ public class SimpleTemplateFormGeneratorNew {
 				
 				formHtmlStr.append("</div></body></html>");
 				
-				if(count > 14) {
-					System.out.println(formHtmlStr);
-				}
+				System.out.println(formHtmlStr);
 								
 			}	
 			
-			//break;
+			break;
 		}					
 	}
 	
@@ -195,6 +200,8 @@ public class SimpleTemplateFormGeneratorNew {
 		formBodyHtmlStr.append("<div id=\"body-div\" style=\""+SimpleTemplateBodyDesignConstants.BODY_DIV_STYLE+"\">");
 		
 		createTopDivOfBody();
+		
+		createBottomOfBodyDiv();
 		
 		formBodyHtmlStr.append("</div>"); 
 	}
@@ -310,10 +317,14 @@ public class SimpleTemplateFormGeneratorNew {
 		List<SimpleTemplateQuestionChoice> question_opts = questionSection.getQuestion_opts();
 	
 		for (int i = questionLowerBound - 1; i < questionUpperBound; i++) {
-			SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
 			
-			createQuestionOptionRow(questionChoice,
-					width_of_question_option_column);
+			if(i < question_opts.size()) {
+				
+				SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
+				
+				createQuestionOptionRow(questionChoice,
+						width_of_question_option_column);
+			}			
 		}
 
 		formQuestionOptionsHtmlStr.append("</div>");
@@ -434,13 +445,18 @@ public class SimpleTemplateFormGeneratorNew {
 				.getQuestion_opts();
 
 		for (int i = lowerBound - 1; i < upperBound; i++) {
-			SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
+			
+			//To avoid ArrayIndexOutOfBoundException
+			if(i < question_opts.size()) {
+				
+				SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
 
-			char[] chrArr = questionChoice.getChoices().toCharArray();
-			int arrLength = chrArr.length;
+				char[] chrArr = questionChoice.getChoices().toCharArray();
+				int arrLength = chrArr.length;
 
-			if (arrLength > max) {
-				max = arrLength;
+				if (arrLength > max) {
+					max = arrLength;
+				}
 			}
 		}
 
@@ -561,5 +577,140 @@ public class SimpleTemplateFormGeneratorNew {
 		columnDetail.setUppderBound(ub);
 		
 		pageDetail.getColumnList().add(columnDetail);
+	}
+	
+	
+	/**
+	 * Method to start generation of form id section
+	 */
+	private void createBottomOfBodyDiv() {
+	
+		formBodyHtmlStr.append("<div id=\"bottom-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_DIV_STYLE+"\">");
+		
+		createFromIdLabel();
+		
+		createFormId();
+		
+		formBodyHtmlStr.append(formIdHtmlStr);
+		
+		formBodyHtmlStr.append("</div>"); //End bottom div
+	}
+	
+	
+	/**
+	 *  Method to create form id section label
+	 */
+	private void createFromIdLabel() {
+		
+		formIdHtmlStr = new StringBuilder("");
+		
+		formIdHtmlStr.append("<div id=\"bottom-label-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_LABEL_DIV_STYLE+"\">");
+		
+		formIdHtmlStr.append(SimpleTemplateBodyDesignConstants.BOTTOM_LABEL_DIV_TEXT);
+		
+		formIdHtmlStr.append("</div>"); //End bottom label div
+	}
+	
+	
+	/**
+	 * Method to start generation of form id
+	 */
+	private void createFormId() {
+		
+		formIdHtmlStr.append("<div id=\"bottom-identifier-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_IDENTIFIER_DIV_STYLE+"\">");
+		
+		createTemplateIdSection();
+		
+		createClientIdSection();
+		
+		createFormIdSection();
+		
+		createPageNumberSection();
+		
+		formIdHtmlStr.append("</div>"); 
+	}
+	
+	
+	private void createTemplateIdSection() {
+		
+		formIdHtmlStr.append("<div id=\"template-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.TEMPLATE_ID_WRAPPER_DIV_STYLE+"\">");
+		
+		createNumberCircles(SimpleTemplateBodyDesignConstants.TEMPLATE_ID_LENGTH, jsonParent.getTemplateId());
+		
+		formIdHtmlStr.append("</div>"); 
+	}
+	
+	
+	private void createClientIdSection() {
+		
+		formIdHtmlStr.append("<div id=\"client-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.CLIENT_ID_WRAPPER_DIV_STYLE+"\">");		
+		
+		createNumberCircles(SimpleTemplateBodyDesignConstants.CLIENT_ID_LENGTH, jsonParent.getClientId());
+		
+		formIdHtmlStr.append("</div>"); 
+	}
+	
+	
+	private void createFormIdSection() {
+		
+		formIdHtmlStr.append("<div id=\"form-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.FORM_ID_WRAPPER_DIV_STYLE+"\">");		
+		
+		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, 1234567);
+		
+		formIdHtmlStr.append("</div>");
+	}
+	
+	
+	private void createPageNumberSection() {
+		
+		formIdHtmlStr.append("<div id=\"page-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.PAGE_WRAPPER_DIV_STYLE+"\">");		
+		
+		createNumberCircles(SimpleTemplateBodyDesignConstants.PAGE_NUMBER_LENGTH, currentPageDetail.getPageNo());
+		
+		formIdHtmlStr.append("</div>");
+	}
+	
+	
+	/**
+	 * Method to generate a map which contains the styles for number used in
+	 * form id section
+	 */
+	private void initalizeNumbersMap() {
+		numbersMap.put("0", SimpleTemplateBodyDesignConstants.DRAW_ZERO);
+		numbersMap.put("1", SimpleTemplateBodyDesignConstants.DRAW_ONE);
+		numbersMap.put("2", SimpleTemplateBodyDesignConstants.DRAW_TWO);
+		numbersMap.put("3", SimpleTemplateBodyDesignConstants.DRAW_THREE);
+		numbersMap.put("4", SimpleTemplateBodyDesignConstants.DRAW_FOUR);
+		numbersMap.put("5", SimpleTemplateBodyDesignConstants.DRAW_FIVE);
+		numbersMap.put("6", SimpleTemplateBodyDesignConstants.DRAW_SIX);
+		numbersMap.put("7", SimpleTemplateBodyDesignConstants.DRAW_SEVEN);
+		numbersMap.put("8", SimpleTemplateBodyDesignConstants.DRAW_EIGHT);
+		numbersMap.put("9", SimpleTemplateBodyDesignConstants.DRAW_NINE);
+	}
+	
+	
+	/**
+	 * Method to create the circles in form id section
+	 * 
+	 * @param length
+	 *            - Max digits in the id(client id, template id, form id, page
+	 *            no)
+	 * @param number
+	 *            - Current id
+	 */
+	private void createNumberCircles(int length, int number) {
+		
+		String numberStr = SimpleTemplateUtil.converToFormIdString(number, length);
+		
+		char chrArr[] = numberStr.toCharArray(); 
+		
+		for(int i=0; i<length; i++) {
+			
+			formIdHtmlStr.append("<div id=\"number-container\" style=\""+SimpleTemplateBodyDesignConstants.NUMBER_CONTAINER_DIV_STYLE+"\">");
+			
+			formIdHtmlStr.append(numbersMap.get(new Character(chrArr[i]).toString()));
+			
+			formIdHtmlStr.append("</div>"); 
+		}
 	}
 }

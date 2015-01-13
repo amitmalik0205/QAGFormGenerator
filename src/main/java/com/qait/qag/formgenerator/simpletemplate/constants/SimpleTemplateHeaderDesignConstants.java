@@ -4,7 +4,7 @@ package com.qait.qag.formgenerator.simpletemplate.constants;
 public interface SimpleTemplateHeaderDesignConstants {
 
 	// Styles for student name section under header section
-	String HEADER_DIV_STYLE = "display:inline-block; width:100%; position:relative";
+	String HEADER_DIV_STYLE = "display:inline-block; width:100%; position:relative; margin-bottom:3px; ";
 
 	String STUDENT_NAME_DIV_STYLE = "float:left; position:absolute; bottom:0;";
 

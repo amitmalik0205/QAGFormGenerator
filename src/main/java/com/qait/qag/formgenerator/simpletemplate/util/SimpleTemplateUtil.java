@@ -21,4 +21,26 @@ public class SimpleTemplateUtil {
 		}
 		return max;
 	}
+	
+	
+	public static String converToFormIdString(int id, int maxLength) {
+		
+		StringBuilder builder = new StringBuilder("");
+		
+		String idStr = new Integer(id).toString();
+		
+		int idLength = idStr.length();
+		
+		if(idLength < maxLength) {
+			int diff = maxLength - idLength;
+			
+			for(int i=1; i<=diff; i++) {
+				builder.append("0");
+			}
+		}
+		
+		builder.append(idStr);
+		
+		return builder.toString();
+	}
 }
