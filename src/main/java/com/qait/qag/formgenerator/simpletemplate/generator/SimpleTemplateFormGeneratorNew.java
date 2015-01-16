@@ -233,7 +233,12 @@ public class SimpleTemplateFormGeneratorNew {
 		
 		formStudentIdOptionsHtmlStr = new StringBuilder("");
 		
-		formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"\">");		
+		
+		if(getHeightOfStudentIdOptionSection() > getHeightOfQuestionOptionSection()) {
+			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"\">");
+		} else {
+			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_NO_BORDER_STYLE+"\">");
+		}		
 		
 		char studentIdArr[] = simpleTemplateId.getStudentId().toCharArray();
 		int student_id_length = sections_topright.getDigits();
@@ -241,7 +246,14 @@ public class SimpleTemplateFormGeneratorNew {
 		
 		for(int i = 0 ; i<student_id_length; i++) {
 			
-			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"\">");
+			//For last cloumn remove the dotted border
+			if(i == student_id_length-1) {
+				
+				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_NO_BORDER_STYLE+"\">");
+			} else {
+				
+				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"\">");				
+			}
 			
 			char char_of_student_id = studentIdArr[i];
 			
@@ -250,8 +262,8 @@ public class SimpleTemplateFormGeneratorNew {
 			for( ; j<studentOptionsArr.length-1; j++) {
 				
 				if(studentOptionsArr[j] == char_of_student_id) {
-					formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE+"\">");				
-					formStudentIdOptionsHtmlStr.append("</div>");
+					formStudentIdOptionsHtmlStr.append(SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE);		
+								
 				} else {
 					//Draw text circle
 					formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID+"\">");
@@ -261,9 +273,8 @@ public class SimpleTemplateFormGeneratorNew {
 			}
 			
 			//Last circle need some bottom margin so draw it separately
-			if(studentOptionsArr[j] == char_of_student_id) {
-				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE_BOTTOM+"\">");				
-				formStudentIdOptionsHtmlStr.append("</div>");
+			if(studentOptionsArr[j] == char_of_student_id) {				
+				formStudentIdOptionsHtmlStr.append(SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE_BOTTOM);
 			} else {
 				//Draw text circle
 				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID_BOTTOM+"\">");
@@ -285,8 +296,16 @@ public class SimpleTemplateFormGeneratorNew {
 		
 		formQuestionOptionsHtmlStr = new StringBuilder("");
 		
-		StringBuilder questionOptionDivStyle = new StringBuilder(
-				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_STYLE);
+		StringBuilder questionOptionDivStyle = new StringBuilder("");
+		
+		if(getHeightOfQuestionOptionSection() >= getHeightOfStudentIdOptionSection()) {
+			
+			questionOptionDivStyle.append(SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_STYLE);
+			
+		} else {
+			
+			questionOptionDivStyle.append(SimpleTemplateBodyDesignConstants.QUESTION_OPTION_DIV_NO_BORDER_STYLE);
+		}
 		
 		int avilable_space_for_question_section = getAvailableWidthForQuestionOptionSection();
 		
@@ -670,7 +689,7 @@ public class SimpleTemplateFormGeneratorNew {
 		
 		formIdHtmlStr.append("<div id=\"form-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.FORM_ID_WRAPPER_DIV_STYLE+"\">");		
 		
-		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, 1234567);
+		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, 234567);
 		
 		formIdHtmlStr.append("</div>");
 	}
@@ -737,5 +756,35 @@ public class SimpleTemplateFormGeneratorNew {
 		formFooterHtmlStr.append(bottom);
 		
 		formFooterHtmlStr.append("</div>"); 
+	}
+	
+	
+	/**
+	 *  Method to calculate the height of student id option section
+	 * @return
+	 */
+	private int getHeightOfStudentIdOptionSection() {
+		
+		int no_of_options_in_id = sections_topright.getChoices().toCharArray().length;
+		
+		return SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_HEIGHT * no_of_options_in_id;
+	}
+	
+	
+	/**
+	 * Method to get the height of the question option section for the current
+	 * page
+	 * 
+	 * @return
+	 */
+	private int getHeightOfQuestionOptionSection() {
+
+		ColumnDetail columnDetail = currentPageDetail.getColumnList().get(0);
+
+		int no_of_questions_in_column = (columnDetail.getUppderBound() - columnDetail
+				.getLowerBound()) + 1;
+
+		return (no_of_questions_in_column * SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_HEIGHT)
+				+ SimpleTemplateBodyDesignConstants.QUESTION_OPTION_COLUMN_DIV_TOP_MARGIN;
 	}
 }
