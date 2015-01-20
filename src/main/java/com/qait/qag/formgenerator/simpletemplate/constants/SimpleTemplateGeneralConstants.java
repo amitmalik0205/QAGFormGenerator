@@ -1,6 +1,10 @@
 package com.qait.qag.formgenerator.simpletemplate.constants;
 
 public interface SimpleTemplateGeneralConstants {
+	
+	String TEMPLATE_ID_TAG = "templateId";
+	
+	String CLIENT_ID_TAG = "clientId";
 
 	//container div constants	
 	int CONTAINER_DIV_MAX_WIDTH = 600;
