@@ -4,5 +4,4 @@ public interface ITemplateFrontController {
 
 	public void startFormGeneration();
 	
-	public void saveFormData();
 }

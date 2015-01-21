@@ -1,6 +1,8 @@
 package com.qait.qag.formgenerator.jsonreader;
 
 import java.io.FileReader;
+import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +14,7 @@ import com.qait.qag.formgenerator.common.util.QAGFormGeneratorUtil;
 import com.qait.qag.formgenerator.generator.ITemplateFrontController;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateGeneralConstants;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
+import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.generator.SimpleTemplateFrontController;
 
 public class JsonReader {
@@ -26,20 +29,15 @@ public class JsonReader {
 					
 			JsonObject jsonObject = (JsonObject)jsonParser.parse(new FileReader("C:\\Amit\\QAG\\long_json_1.txt"));
 			String jsonStr = jsonObject.toString();
-			
+								
 			JsonElement templateIdJsonElement = jsonObject.get(SimpleTemplateGeneralConstants.TEMPLATE_ID_TAG);
 			int templateId = templateIdJsonElement.getAsInt();
 			
 			if(templateId == 2) {
 				
 				SimpleTemplateJsonParent  jsonParent = new Gson().fromJson(jsonStr, SimpleTemplateJsonParent.class);
-				
-				/*List<SimpleTemplateQuestionChoice> question_opts = jsonParent.getFormSpec().getQuestionSection().getQuestion_opts();
-				String str = new Gson().toJson(question_opts); 
-				System.out.println(str);
-				
-				
-				Type type = new TypeToken<List<SimpleTemplateQuestionChoice>>() {}.getType();
+							
+				/*Type type = new TypeToken<List<SimpleTemplateQuestionChoice>>() {}.getType();
 				List<SimpleTemplateQuestionChoice> choices = new Gson().fromJson(str, type);*/
 				
 				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent);

@@ -6,13 +6,13 @@ public class Form {
 
 	private long formId;
 	
-	private int generatedFormId;
-	
 	private int noOfPages;
 	
 	private int clientId;
 	
 	private int templateId;
+	
+	private int hashCode;
 	
 	private List<FormPageDetail> pageDetails;
 
@@ -22,14 +22,6 @@ public class Form {
 
 	public void setFormId(long formId) {
 		this.formId = formId;
-	}
-
-	public int getGeneratedFormId() {
-		return generatedFormId;
-	}
-
-	public void setGeneratedFormId(int generatedFormId) {
-		this.generatedFormId = generatedFormId;
 	}
 
 	public int getNoOfPages() {
@@ -63,4 +55,12 @@ public class Form {
 	public void setPageDetails(List<FormPageDetail> pageDetails) {
 		this.pageDetails = pageDetails;
 	}
+
+	public int getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(int hashCode) {
+		this.hashCode = hashCode;
+	}	
 }
