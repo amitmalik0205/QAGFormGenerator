@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.qait.qag.formgenerator.generator.IFormGenerator;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateBodyDesignConstants;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateGeneralConstants;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateHeaderDesignConstants;
@@ -20,7 +21,7 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSe
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
 import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplateUtil;
 
-public class SimpleTemplateFormGenerator {
+public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private static final Logger logger =Logger.getLogger(SimpleTemplateFormGenerator.class);
 	
@@ -75,6 +76,7 @@ public class SimpleTemplateFormGenerator {
 	}
 
 	
+	@Override
 	public void generateForm() {
 		
 		createPageDetails();
@@ -525,7 +527,8 @@ public class SimpleTemplateFormGenerator {
 	 * Method prepares a list of PageDetail objects which contains how many
 	 * question option columns are on a page and question ranges in each column
 	 */
-	private void createPageDetails() {
+	@Override
+	public void createPageDetails() {
 
 		int max_avilable_space_for_question_section = getAvailableWidthForQuestionOptionSection();
 
@@ -789,6 +792,7 @@ public class SimpleTemplateFormGenerator {
 	}
 
 
+	@Override
 	public List<PageDetail> getPageDetailList() {
 		return pageDetailList;
 	}
