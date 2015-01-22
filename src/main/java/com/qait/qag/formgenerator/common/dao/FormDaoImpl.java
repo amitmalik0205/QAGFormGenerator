@@ -164,6 +164,7 @@ public class FormDaoImpl implements IFormDao {
 					e.printStackTrace();
 				}
 				
+				form = null;
 				logger.fatal(QAGFormGeneratorUtil.getExceptionDescriptionString(se));
 
 			} finally {

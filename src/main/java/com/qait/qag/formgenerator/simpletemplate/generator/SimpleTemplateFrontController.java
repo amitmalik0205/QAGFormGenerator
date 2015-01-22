@@ -44,25 +44,43 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 	@Override
 	public void startFormGeneration() {
 		
-		long formId = 0;
+		long formId = -1;
 
-		if (!checkFormExists()) {
-
-			formId = formDao.saveForm(prepareFormData());
-		}
-
-		if(formId != 0) {
+		Form savedForm = getFormByHashCode();
+		
+		if(savedForm != null) {		
 			
-			formGenerator.generateForm(formId);
-		} else {
-			System.out.println("Error while saving form");
+			if(savedForm.getHashCode() == 0) {
+				//Form does not exist save it
+				formId = formDao.saveForm(prepareFormData());
+				
+			} else {				
+				//Form exists set form id from database
+				formId = savedForm.getFormId();
+			}	
+			
+			if(formId > 0) {
+				
+				formGenerator.generateForm(formId);
+				
+			} else if (formId == 0) {
+				
+				System.out.println("Error while saving form");
+			}
+			
+		}  else {
+			
+			System.out.println("Error while fetching form by hashcode");
 		}
+			
 	}
 	
 	
-	private boolean checkFormExists() {		
-		
-		boolean formExists = false;
+	/**
+	 *  Method will check if the form already saved
+	 * @return
+	 */
+	private Form getFormByHashCode() {		
 		
 		String hashCodeJsonStr = new Gson().toJson(preapareFormHashCodeObject());
 		
@@ -70,12 +88,7 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		Form savedForm = formDao.getFormByHashCode(hashCode);
 		
-		if(savedForm.getHashCode() == hashCode) {
-			
-			formExists = true;
-		}
-		
-		return formExists;
+		return savedForm;
 	}
 	
 	

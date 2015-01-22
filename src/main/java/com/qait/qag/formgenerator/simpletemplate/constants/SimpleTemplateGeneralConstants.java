@@ -13,7 +13,7 @@ public interface SimpleTemplateGeneralConstants {
 	
 	String CONTAINER_DIV_STYLE = "min-width:"+CONTAINER_DIV_MIN_WIDTH+"px; max-width:"+CONTAINER_DIV_MAX_WIDTH+"px";
 	
-	int MAX_QUESTION_IN_COLUMN = 10;
+	int MAX_QUESTION_IN_COLUMN = 25;
 	
 	int INITIAL_LOWER_BOUND = 1;	
 	
