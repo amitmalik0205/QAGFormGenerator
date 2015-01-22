@@ -6,9 +6,9 @@ import com.qait.qag.formgenerator.simpletemplate.domain.PageDetail;
 
 public interface IFormGenerator {
 
-	public void generateForm();
+	public void generateForm(long formId);
 	
-	public void createPageDetails();
+	public List<PageDetail> createPageDetails();
 	
 	public List<PageDetail> getPageDetailList();
 }

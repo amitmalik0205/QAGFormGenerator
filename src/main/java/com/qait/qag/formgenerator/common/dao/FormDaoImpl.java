@@ -21,16 +21,16 @@ public class FormDaoImpl implements IFormDao {
 	
 
 	@Override
-	public void saveForm(Form form) {
+	public long saveForm(Form form) {
 	
 		Connection conn = QAGFormGeneratorDBUtil.getDBConnection();
 		
 		PreparedStatement  pstmt1 = null;
 		PreparedStatement  pstmt2 = null;
 		
-		if (conn != null) {
-						
-			long savedFormId = 0;
+		long savedFormId = 0;
+		
+		if (conn != null) {					
 		
 			try {
 								
@@ -120,6 +120,8 @@ public class FormDaoImpl implements IFormDao {
 			}// end try
 
 		}
+		
+		return savedFormId;
 	}
 
 	@Override

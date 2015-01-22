@@ -4,7 +4,7 @@ import com.qait.qag.formgenerator.db.domain.Form;
 
 public interface IFormDao {
 
-	public void saveForm(Form form);
+	public long saveForm(Form form);
 	
 	public Form getFormByHashCode(int hashCode);
 }

@@ -42,14 +42,21 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 	
 	
 	@Override
-	public void startFormGeneration() {	
+	public void startFormGeneration() {
 		
-		formGenerator.generateForm();
-		
-		if(!checkFormExists()) {
+		long formId = 0;
+
+		if (!checkFormExists()) {
+
+			formId = formDao.saveForm(prepareFormData());
+		}
+
+		if(formId != 0) {
 			
-			formDao.saveForm(prepareFormData());
-		}		
+			formGenerator.generateForm(formId);
+		} else {
+			System.out.println("Error while saving form");
+		}
 	}
 	
 	

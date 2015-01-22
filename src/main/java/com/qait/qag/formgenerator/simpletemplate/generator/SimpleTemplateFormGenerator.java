@@ -29,8 +29,6 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 
 	private List<SimpleTemplateInstance> instances;
 
-	private Integer formCode;
-
 	private SimpleTemplateQuestionSection questionSection;
 
 	private SimpleTemplateSectionTopRight sections_topright;
@@ -61,25 +59,28 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private Map<String, String> numbersMap;
 	
+	private long formId;
+	
 	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {	
 		
 		this.jsonParent = jsonParent;
+		
 		this.instances = jsonParent.getInstances();
-		this.formCode = jsonParent.getFormSpec().getFormCode();
+		
 		this.questionSection = jsonParent.getFormSpec().getQuestionSection();
 		
 		this.sections_topright = jsonParent.getFormSpec().getSections_topright();
 		
-		pageDetailList = new ArrayList<PageDetail>();
+		pageDetailList = createPageDetails();
 		
 		numbersMap = new HashMap<String, String>();
 	}
 
 	
 	@Override
-	public void generateForm() {
+	public void generateForm(long formId) {
 		
-		createPageDetails();
+		this.formId = formId;
 		
 		initalizeNumbersMap();
 		
@@ -528,7 +529,9 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 * question option columns are on a page and question ranges in each column
 	 */
 	@Override
-	public void createPageDetails() {
+	public List<PageDetail> createPageDetails() {
+		
+		List<PageDetail> pageDetailList = new ArrayList<PageDetail>();
 
 		int max_avilable_space_for_question_section = getAvailableWidthForQuestionOptionSection();
 
@@ -600,7 +603,9 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		if (pageCreated) {
 			pageDetail.setPageNo(pageCounter);
 			pageDetailList.add(pageDetail); // add last page to list
-		}
+		}		
+		
+		return pageDetailList;
 	}
 	
 	private void addColumnToPageDetail(PageDetail pageDetail, int columnWidth, int ub, int lb) {
@@ -692,7 +697,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		formIdHtmlStr.append("<div id=\"form-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.FORM_ID_WRAPPER_DIV_STYLE+"\">");		
 		
-		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, 234567);
+		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, formId);
 		
 		formIdHtmlStr.append("</div>");
 	}
@@ -735,7 +740,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 * @param number
 	 *            - Current id
 	 */
-	private void createNumberCircles(int length, int number) {
+	private void createNumberCircles(int length, Number number) {
 		
 		String numberStr = SimpleTemplateUtil.converToFormIdString(number, length);
 		

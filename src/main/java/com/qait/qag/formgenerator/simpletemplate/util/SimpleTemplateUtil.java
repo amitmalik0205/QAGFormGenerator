@@ -23,11 +23,11 @@ public class SimpleTemplateUtil {
 	}
 	
 	
-	public static String converToFormIdString(int id, int maxLength) {
+	public static String converToFormIdString(Number id, int maxLength) {
 		
 		StringBuilder builder = new StringBuilder("");
 		
-		String idStr = new Integer(id).toString();
+		String idStr = id.toString();
 		
 		int idLength = idStr.length();
 		
