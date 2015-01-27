@@ -19,6 +19,8 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
+import com.qait.qag.formgenerator.simpletemplate.dto.FormPageDetailDto;
+import com.qait.qag.formgenerator.simpletemplate.dto.StudentFormDetailDto;
 import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplateUtil;
 
 public class SimpleTemplateFormGenerator implements IFormGenerator {
@@ -61,6 +63,9 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private long formId;
 	
+	private List<StudentFormDetailDto> response;
+	
+	
 	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {	
 		
 		this.jsonParent = jsonParent;
@@ -74,11 +79,13 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		pageDetailList = createPageDetails();
 		
 		numbersMap = new HashMap<String, String>();
+		
+		response = new ArrayList<StudentFormDetailDto>();
 	}
 
 	
 	@Override
-	public void generateForm(long formId) {
+	public List<StudentFormDetailDto> generateForm(long formId) {
 		
 		this.formId = formId;
 		
@@ -86,11 +93,23 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		for(SimpleTemplateInstance instance : instances) {
 			
-			for(PageDetail pageDetail : pageDetailList) {
+			StudentFormDetailDto studentDto = new StudentFormDetailDto();
+			
+			List<FormPageDetailDto> formPageDetailList = new ArrayList<FormPageDetailDto>();
+			
+			studentDto.setStudentId(instance.getIds().getStudentId());
+			
+			for(PageDetail pageDetail : pageDetailList) {							
 				
 				currentPageDetail = pageDetail;
 				
-				formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+				FormPageDetailDto formPageDetail = new FormPageDetailDto();
+				
+				formPageDetail.setPageNumber(currentPageDetail.getPageNo());
+				
+				//formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+				
+				formHtmlStr = new StringBuilder("");
 				
 				formHtmlStr.append("<div id=\"container\" style=\""+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"\">");
 				
@@ -116,14 +135,23 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 				
 				formHtmlStr.append(formFooterHtmlStr);
 				
-				formHtmlStr.append("</div></body></html>");
+				formHtmlStr.append("</div>");
 				
-				System.out.println(formHtmlStr);
+				formHtmlStr.append("</br>");
+				
+				//System.out.println(formHtmlStr);
 								
+				formPageDetail.setPageString(formHtmlStr.toString());
+				
+				formPageDetailList.add(formPageDetail);
 			}	
 			
-			break;
-		}					
+			studentDto.setFormPageDetails(formPageDetailList);
+			
+			response.add(studentDto);
+		}	
+		
+		return response;			
 	}
 	
 	

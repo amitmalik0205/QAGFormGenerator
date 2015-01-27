@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.qait.qag.formgenerator.common.dao.FormDaoImpl;
 import com.qait.qag.formgenerator.common.dao.IFormDao;
 import com.qait.qag.formgenerator.db.domain.Form;
@@ -17,6 +18,8 @@ import com.qait.qag.formgenerator.simpletemplate.domain.ColumnDetail;
 import com.qait.qag.formgenerator.simpletemplate.domain.PageDetail;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
+import com.qait.qag.formgenerator.simpletemplate.dto.FormPageDetailDto;
+import com.qait.qag.formgenerator.simpletemplate.dto.StudentFormDetailDto;
 
 public class SimpleTemplateFrontController implements ITemplateFrontController {
 
@@ -61,15 +64,35 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 			
 			if(formId > 0) {
 				
-				formGenerator.generateForm(formId);
+				List<StudentFormDetailDto> reponse = formGenerator.generateForm(formId);
+				
+				Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+				
+				String jsonResponse = gson.toJson(reponse);
+				
+				StringBuilder htmlResponse = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+				
+				for(StudentFormDetailDto dto : reponse) {
+					
+					List<FormPageDetailDto> formPageDetails  = dto.getFormPageDetails();
+					
+					for(FormPageDetailDto detailDto : formPageDetails) {
+						
+						htmlResponse.append(detailDto.getPageString());
+					}
+				}
+				
+				htmlResponse.append("</body></html>");
+				
+				System.out.println(htmlResponse.toString());
 				
 			} else if (formId == 0) {
-				
+				logger.error("Error while saving form");
 				System.out.println("Error while saving form");
 			}
 			
 		}  else {
-			
+			logger.error("Error while fetching form by hashcode");
 			System.out.println("Error while fetching form by hashcode");
 		}
 			
