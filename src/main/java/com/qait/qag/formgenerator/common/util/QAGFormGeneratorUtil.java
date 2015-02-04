@@ -12,19 +12,29 @@ public class QAGFormGeneratorUtil {
 	 * logging of exception.
 	 */
 	public static String getExceptionDescriptionString(Exception e) {
+		
 		StringWriter stringWriter = new StringWriter();
+		
 		PrintWriter printWriter = new PrintWriter(stringWriter);
+		
 		e.printStackTrace(printWriter);
+		
 		return stringWriter.toString();
 	}
 	
 	
 	public static boolean checkForEmptyString(String str) {
+		
 		if (str == null) {
+			
 			return true;
+			
 		} else if (str.length() == 0) {
+			
 			return true;
+			
 		} else {
+			
 			return false;
 		}
 	}

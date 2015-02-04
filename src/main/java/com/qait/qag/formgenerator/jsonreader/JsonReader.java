@@ -22,6 +22,11 @@ public class JsonReader {
 		
 		JsonParser jsonParser = new JsonParser();
 		
+		StringBuilder builder = new StringBuilder();
+		builder.append("Amit");
+		builder.append(" ");
+		builder.append("Amit");
+		
 		try {
 					
 			JsonObject jsonObject = (JsonObject)jsonParser.parse(new FileReader("C:\\Amit\\QAG\\long_json_2.txt"));
@@ -49,7 +54,9 @@ public class JsonReader {
 			}
 			
 		} catch (Exception e) {
+			
 			e.printStackTrace();
+			
 			logger.fatal(QAGFormGeneratorUtil.getExceptionDescriptionString(e));
 		}
 	}	

@@ -9,6 +9,7 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionSection;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateSectionTopRight;
+import com.qait.qag.formgenerator.simpletemplate.util.SimpleTemplatePropertiesFileReaderUtil;
 
 public class SimpleTemplateFormValidator {	
 	
@@ -28,10 +29,11 @@ public class SimpleTemplateFormValidator {
 		
 		Integer templateId = jsonParent.getTemplateId();
 		
-		if(templateId == null) {			
-			
-			errors.append("templateId can not be empty");
-			
+		if (templateId == null) {
+
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateJsonParent.templateId.empty"));
+
 			errors.append("\n");
 		}
 		
@@ -39,7 +41,8 @@ public class SimpleTemplateFormValidator {
 		
 		if(clientId == null) {		
 			
-			errors.append("clientId can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateJsonParent.clientId.empty"));
 			
 			errors.append("\n");
 		}
@@ -90,7 +93,8 @@ public class SimpleTemplateFormValidator {
 			
 			if(currentLabel != lastLabel) {
 				
-				errors.append("Either provide label for all the questions or for none");
+				errors.append(SimpleTemplatePropertiesFileReaderUtil
+						.getValidationProperty("SimpleTemplateQuestionChoice.questions.label"));
 				
 				errors.append("\n");
 				
@@ -107,8 +111,10 @@ public class SimpleTemplateFormValidator {
 		
 		if(choice == null) {
 			
-			errors.append("No choices are provided for question number "+counter);
-			
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateQuestionChoice.questions.choice")
+					+" "+ counter);
+
 			errors.append("\n");
 			
 		} else {
@@ -117,7 +123,9 @@ public class SimpleTemplateFormValidator {
 			
 			if(QAGFormGeneratorUtil.checkForEmptyString(choices)) {
 				
-				errors.append("No choices are provided for question number "+counter);
+				errors.append(SimpleTemplatePropertiesFileReaderUtil
+						.getValidationProperty("SimpleTemplateQuestionChoice.questions.choice")
+						+" "+ counter);
 				
 				errors.append("\n");
 			}				
@@ -129,7 +137,8 @@ public class SimpleTemplateFormValidator {
 
 		if(question_opts == null || (question_opts != null && question_opts.size() < 1)) {
 			
-			errors.append("question_opts can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateQuestionChoice.empty"));
 			
 			errors.append("\n");
 			
@@ -137,9 +146,11 @@ public class SimpleTemplateFormValidator {
 			
 			int no_of_questions = question_opts.size();
 			
-			if(no_of_questions != count) {							
-				errors.append("questions in question_opts must be same as value of count");
+			if (no_of_questions != count) {
 				
+				errors.append(SimpleTemplatePropertiesFileReaderUtil
+						.getValidationProperty("SimpleTemplateQuestionChoice.questions.count"));
+
 				errors.append("\n");
 			}
 			
@@ -159,7 +170,8 @@ public class SimpleTemplateFormValidator {
 	private void validateSimpleTemplateQuestionSection(SimpleTemplateQuestionSection questionSection, StringBuilder errors) {
 		
 		if(questionSection == null) {				
-			errors.append("questionSection can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateQuestionSection.empty"));
 			
 			errors.append("\n");
 			
@@ -169,7 +181,8 @@ public class SimpleTemplateFormValidator {
 			
 			if(count == null) {
 				
-				errors.append("count can not be empty");
+				errors.append(SimpleTemplatePropertiesFileReaderUtil
+						.getValidationProperty("SimpleTemplateQuestionSection.count.empty"));
 				
 				errors.append("\n");				
 				
@@ -185,7 +198,8 @@ public class SimpleTemplateFormValidator {
 		
 		if(topRight == null) {
 			
-			errors.append("sections_topright can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateSectionTopRight.empty"));
 			
 			errors.append("\n");
 			
@@ -195,7 +209,8 @@ public class SimpleTemplateFormValidator {
 			
 			if(QAGFormGeneratorUtil.checkForEmptyString(choices)) {
 				
-				errors.append("sections_topright must have choices");
+				errors.append(SimpleTemplatePropertiesFileReaderUtil
+						.getValidationProperty("SimpleTemplateSectionTopRight.choices"));
 				
 				errors.append("\n");
 				
@@ -205,7 +220,8 @@ public class SimpleTemplateFormValidator {
 				
 				if(digits == null) {
 					
-					errors.append("sections_topright must have digits");
+					errors.append(SimpleTemplatePropertiesFileReaderUtil
+							.getValidationProperty("SimpleTemplateSectionTopRight.digits"));
 					
 					errors.append("\n");
 				} 				
@@ -218,7 +234,8 @@ public class SimpleTemplateFormValidator {
 
 		if(formSpec == null) {
 			
-			errors.append("formSpec can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateJsonParent.formSpec.empty"));
 			
 			errors.append("\n");
 			
@@ -235,7 +252,8 @@ public class SimpleTemplateFormValidator {
 		
 		if(instances == null || (instances != null && instances.size() < 1)) {
 			
-			errors.append("instances can not be empty");
+			errors.append(SimpleTemplatePropertiesFileReaderUtil
+					.getValidationProperty("SimpleTemplateInstance.empty"));
 			
 			errors.append("\n");
 			
@@ -253,7 +271,8 @@ public class SimpleTemplateFormValidator {
 				
 				if(QAGFormGeneratorUtil.checkForEmptyString(studentId)) {
 					
-					errors.append("studentId can not be empty");
+					errors.append(SimpleTemplatePropertiesFileReaderUtil
+							.getValidationProperty("SimpleTemplateInstance.studentId.empty"));
 					
 					errors.append("\n");
 					
@@ -263,22 +282,29 @@ public class SimpleTemplateFormValidator {
 					
 					if(digits !=  null && studentIdLength != digits) {
 						
-						errors.append("Number of digits in studentId must be "+digits+" for instance "+counter);
-						
+						errors.append(SimpleTemplatePropertiesFileReaderUtil
+								.getValidationProperty("SimpleTemplateInstance.studentId.digits.1")
+								+ " "+digits
+								+ SimpleTemplatePropertiesFileReaderUtil
+										.getValidationProperty("SimpleTemplateInstance.studentId.digits.2")
+								+" "+ counter);
+
 						errors.append("\n");
 					}
 				}
 				
 				if(QAGFormGeneratorUtil.checkForEmptyString(top)) {
 					
-					errors.append("top can not be empty");
+					errors.append(SimpleTemplatePropertiesFileReaderUtil
+							.getValidationProperty("SimpleTemplateInstance.top.empty"));
 					
 					errors.append("\n");
 				}
 				
 				if(QAGFormGeneratorUtil.checkForEmptyString(bottom)) {
 					
-					errors.append("bottom can not be empty");
+					errors.append(SimpleTemplatePropertiesFileReaderUtil
+							.getValidationProperty("SimpleTemplateInstance.bottom.empty"));
 					
 					errors.append("\n");
 				}

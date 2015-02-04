@@ -387,7 +387,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 				SimpleTemplateQuestionChoice questionChoice = question_opts.get(i);
 				
 				createQuestionOptionRow(questionChoice,
-						width_of_question_option_column);
+						width_of_question_option_column, i+1);
 			}			
 		}
 
@@ -401,7 +401,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createQuestionOptionRow(
 			SimpleTemplateQuestionChoice questionChoice,
-			int width_of_question_option_column) {
+			int width_of_question_option_column, int counter) {
 		
 		StringBuilder questionOptionRowStyle = new StringBuilder(
 				SimpleTemplateBodyDesignConstants.QUESTION_OPTION_ROW_DIV_STYLE);
@@ -413,7 +413,15 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		formQuestionOptionsHtmlStr.append("<div id=\"question-option-row-div\" style=\""+questionOptionRowStyle.toString()+"\">");
 		
-		createQuestionOptionLabel(questionChoice.getLabel());
+		//If label is not provided in JSON then default label is 1,2,3..
+		String questionLabel = questionChoice.getLabel();
+		
+		if(questionLabel == null) {
+			
+			questionLabel = new Integer(counter).toString() + ".";
+		}
+		
+		createQuestionOptionLabel(questionLabel);
 		
 		char choiceArr[] = questionChoice.getChoices().toCharArray();
 		
