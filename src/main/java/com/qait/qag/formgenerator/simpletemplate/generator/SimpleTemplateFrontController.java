@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qait.qag.formgenerator.common.dao.FormDaoImpl;
 import com.qait.qag.formgenerator.common.dao.IFormDao;
+import com.qait.qag.formgenerator.common.enums.ResponseType;
 import com.qait.qag.formgenerator.db.domain.Form;
 import com.qait.qag.formgenerator.db.domain.FormPageDetail;
 import com.qait.qag.formgenerator.domain.FormHashCode;
@@ -20,6 +21,7 @@ import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
 import com.qait.qag.formgenerator.simpletemplate.dto.FormPageDetailDto;
 import com.qait.qag.formgenerator.simpletemplate.dto.StudentFormDetailDto;
+import com.qait.qag.formgenerator.simpletemplate.validator.SimpleTemplateFormValidator;
 
 public class SimpleTemplateFrontController implements ITemplateFrontController {
 
@@ -38,16 +40,32 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		this.jsonParent = jsonParent;
 		
-		this.formGenerator = new SimpleTemplateFormGenerator(jsonParent);
-		
-		this.formDao = new FormDaoImpl();
 	}
 	
 	
 	@Override
-	public void startFormGeneration() {
+	public String validateFormData() {
+		
+		SimpleTemplateFormValidator validator = new SimpleTemplateFormValidator(jsonParent);
+		
+		String errors = null;
+		
+		errors = validator.validateJson();
+		
+		return errors;
+	}
+	
+	
+	@Override
+	public String startFormGeneration() {
+		
+		formGenerator = new SimpleTemplateFormGenerator(jsonParent);
+		
+		formDao = new FormDaoImpl();
 		
 		long formId = -1;
+		
+		String responseStr = null;
 
 		Form savedForm = getFormByHashCode();
 		
@@ -64,27 +82,34 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 			
 			if(formId > 0) {
 				
-				List<StudentFormDetailDto> reponse = formGenerator.generateForm(formId);
+				List<StudentFormDetailDto> reponse = formGenerator.generateForm(formId);							
 				
-				Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+				String responseType = jsonParent.getResponseType();
 				
-				String jsonResponse = gson.toJson(reponse);
-				
-				StringBuilder htmlResponse = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
-				
-				for(StudentFormDetailDto dto : reponse) {
+
+				if(responseType != null && responseType.equalsIgnoreCase(ResponseType.JSON.getValue())) {
 					
-					List<FormPageDetailDto> formPageDetails  = dto.getFormPageDetails();
+					Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 					
-					for(FormPageDetailDto detailDto : formPageDetails) {
+					responseStr = gson.toJson(reponse);
+				} else {
+					
+					StringBuilder htmlResponse = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+					
+					for(StudentFormDetailDto dto : reponse) {
 						
-						htmlResponse.append(detailDto.getPageString());
+						List<FormPageDetailDto> formPageDetails  = dto.getFormPageDetails();
+						
+						for(FormPageDetailDto detailDto : formPageDetails) {
+							
+							htmlResponse.append(detailDto.getPageString());
+						}
 					}
-				}
+					
+					responseStr = htmlResponse.append("</body></html>").toString();
+				}																
 				
-				htmlResponse.append("</body></html>");
-				
-				System.out.println(htmlResponse.toString());
+				System.out.println(responseStr);
 				
 			} else if (formId == 0) {
 				logger.error("Error while saving form");
@@ -95,7 +120,8 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 			logger.error("Error while fetching form by hashcode");
 			System.out.println("Error while fetching form by hashcode");
 		}
-			
+		
+		return responseStr;		
 	}
 	
 	

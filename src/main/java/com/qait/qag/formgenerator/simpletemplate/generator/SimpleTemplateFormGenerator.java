@@ -13,7 +13,6 @@ import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateGeneral
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateHeaderDesignConstants;
 import com.qait.qag.formgenerator.simpletemplate.domain.ColumnDetail;
 import com.qait.qag.formgenerator.simpletemplate.domain.PageDetail;
-import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateID;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateInstance;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateJsonParent;
 import com.qait.qag.formgenerator.simpletemplate.domain.SimpleTemplateQuestionChoice;
@@ -51,8 +50,6 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private String bottom;
 	
-	private SimpleTemplateID simpleTemplateId;
-	
 	private List<PageDetail> pageDetailList;
 	
 	private PageDetail currentPageDetail;
@@ -64,6 +61,8 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	private long formId;
 	
 	private List<StudentFormDetailDto> response;
+	
+	private String currentStudentId;
 	
 	
 	public SimpleTemplateFormGenerator(SimpleTemplateJsonParent jsonParent) {	
@@ -97,7 +96,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 			
 			List<FormPageDetailDto> formPageDetailList = new ArrayList<FormPageDetailDto>();
 			
-			studentDto.setStudentId(instance.getIds().getStudentId());
+			studentDto.setStudentId(instance.getStudentId());
 			
 			for(PageDetail pageDetail : pageDetailList) {							
 				
@@ -117,7 +116,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 				
 				formFooterHtmlStr = new StringBuilder("");
 				
-				simpleTemplateId = instance.getIds();
+				currentStudentId = instance.getStudentId();
 				
 				top = instance.getTop();
 				
@@ -209,7 +208,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		formHeaderHtmlStr.append("<table id=\"student-id-table\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_STYLE+"\">");
 		formHeaderHtmlStr.append("<tr>");
 				
-		char studentIdArr[] = simpleTemplateId.getStudentId().toCharArray();
+		char studentIdArr[] = currentStudentId.toCharArray();
 		for(char ch : studentIdArr) {
 			formHeaderHtmlStr.append("<td style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_TD_STYLE+"\">");
 			formHeaderHtmlStr.append(ch);
@@ -271,7 +270,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_NO_BORDER_STYLE+"\">");
 		}		
 		
-		char studentIdArr[] = simpleTemplateId.getStudentId().toCharArray();
+		char studentIdArr[] = currentStudentId.toCharArray();
 		int student_id_length = sections_topright.getDigits();
 		char studentOptionsArr[] = sections_topright.getChoices().toCharArray();
 		

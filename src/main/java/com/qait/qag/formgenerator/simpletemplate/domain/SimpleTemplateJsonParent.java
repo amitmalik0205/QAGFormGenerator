@@ -11,15 +11,18 @@ import com.google.gson.annotations.Expose;
 @Generated("org.jsonschema2pojo")
 public class SimpleTemplateJsonParent implements Serializable {
 
-	private static final long serialVersionUID = -7047894885514528204L;
+	private static final long serialVersionUID = -7047894885514528204L;	
 	
 	@Expose
+	private String responseType;
+	
+	@Expose	
 	private Integer templateId;
 	
-	@Expose
+	@Expose	
 	private Integer clientId;
 
-	@Expose
+	@Expose	
 	private SimpleTemplateFormSpec formSpec;
 	
 	@Expose
@@ -55,5 +58,13 @@ public class SimpleTemplateJsonParent implements Serializable {
 
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
+	}
+
+	public String getResponseType() {
+		return responseType;
+	}
+
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
 	}
 }

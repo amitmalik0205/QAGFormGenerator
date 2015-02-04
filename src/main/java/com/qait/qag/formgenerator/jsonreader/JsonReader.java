@@ -39,7 +39,13 @@ public class JsonReader {
 				
 				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent);
 				
-				frontController.startFormGeneration();
+				String errors = frontController.validateFormData();
+				
+				if(QAGFormGeneratorUtil.checkForEmptyString(errors)) {
+					
+					frontController.startFormGeneration();
+					
+				}							
 			}
 			
 		} catch (Exception e) {

@@ -8,20 +8,21 @@ import com.google.gson.annotations.Expose;
 public class SimpleTemplateInstance {
 
 	@Expose
-	private SimpleTemplateID ids;
+	private String studentId;
 	
 	@Expose
 	private String top;
 	
 	@Expose
 	private String bottom;
+	
 
-	public SimpleTemplateID getIds() {
-		return ids;
+	public String getStudentId() {
+		return studentId;
 	}
 
-	public void setIds(SimpleTemplateID ids) {
-		this.ids = ids;
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getTop() {
