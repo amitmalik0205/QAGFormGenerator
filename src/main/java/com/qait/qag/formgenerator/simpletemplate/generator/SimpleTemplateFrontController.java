@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.qait.qag.formgenerator.common.dao.FormDaoImpl;
 import com.qait.qag.formgenerator.common.dao.IFormDao;
 import com.qait.qag.formgenerator.common.enums.ResponseType;
+import com.qait.qag.formgenerator.common.util.QAGFormGeneratorUtil;
 import com.qait.qag.formgenerator.db.domain.Form;
 import com.qait.qag.formgenerator.db.domain.FormPageDetail;
 import com.qait.qag.formgenerator.domain.FormHashCode;
@@ -29,6 +30,8 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 	
 	private SimpleTemplateJsonParent jsonParent;
 	
+	private String key;
+	
 	private IFormGenerator formGenerator;
 	
 	private int hashCode;
@@ -36,10 +39,11 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 	private IFormDao formDao;
 	
 	
-	public SimpleTemplateFrontController(SimpleTemplateJsonParent jsonParent) {
+	public SimpleTemplateFrontController(SimpleTemplateJsonParent jsonParent, String key) {
 		
 		this.jsonParent = jsonParent;
 		
+		this.key = key;
 	}
 	
 	
@@ -48,9 +52,13 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		SimpleTemplateFormValidator validator = new SimpleTemplateFormValidator(jsonParent);
 		
-		String errors = null;
+		String errors = validator.validateKey(key);
 		
-		errors = validator.validateJson();
+		//If key is validate then validate json
+		if(QAGFormGeneratorUtil.checkForEmptyString(errors)) {
+			
+			errors = validator.validateJson();
+		}				
 		
 		return errors;
 	}

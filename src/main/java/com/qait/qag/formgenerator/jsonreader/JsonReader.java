@@ -37,21 +37,27 @@ public class JsonReader {
 			
 			if(templateId == 2) {
 				
+				String data = null;
+				
 				SimpleTemplateJsonParent  jsonParent = new Gson().fromJson(jsonStr, SimpleTemplateJsonParent.class);
 							
 				/*Type type = new TypeToken<List<SimpleTemplateQuestionChoice>>() {}.getType();
 				List<SimpleTemplateQuestionChoice> choices = new Gson().fromJson(str, type);*/
 				
-				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent);
+				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent, "123456");
 				
 				String errors = frontController.validateFormData();
 				
 				if(QAGFormGeneratorUtil.checkForEmptyString(errors)) {
 					
-					frontController.startFormGeneration();
+					data = frontController.startFormGeneration();
 					
-				}							
+				}		
+				
+				System.out.println(data);
 			}
+			
+			System.out.println();
 			
 		} catch (Exception e) {
 			
