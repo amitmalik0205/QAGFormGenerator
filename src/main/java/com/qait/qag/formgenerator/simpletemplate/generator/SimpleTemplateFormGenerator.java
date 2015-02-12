@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.qait.qag.formgenerator.common.dao.ClientDaoImpl;
+import com.qait.qag.formgenerator.common.dao.IClientDao;
+import com.qait.qag.formgenerator.db.domain.Client;
 import com.qait.qag.formgenerator.generator.IFormGenerator;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateBodyDesignConstants;
 import com.qait.qag.formgenerator.simpletemplate.constants.SimpleTemplateGeneralConstants;
@@ -722,7 +725,11 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		formIdHtmlStr.append("<div id=\"client-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.CLIENT_ID_WRAPPER_DIV_STYLE+"\">");		
 		
-		createNumberCircles(SimpleTemplateBodyDesignConstants.CLIENT_ID_LENGTH, jsonParent.getClientId());
+		IClientDao clientDao = new ClientDaoImpl();
+
+		Client client = clientDao.getClientByKey(jsonParent.getKey());
+		
+		createNumberCircles(SimpleTemplateBodyDesignConstants.CLIENT_ID_LENGTH, client.getId());
 		
 		formIdHtmlStr.append("</div>"); 
 	}

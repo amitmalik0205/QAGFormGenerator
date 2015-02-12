@@ -14,13 +14,13 @@ public class SimpleTemplateJsonParent implements Serializable {
 	private static final long serialVersionUID = -7047894885514528204L;	
 	
 	@Expose
+	private String key;
+	
+	@Expose
 	private String responseType;
 	
 	@Expose	
 	private Integer templateId;
-	
-	@Expose	
-	private Integer clientId;
 
 	@Expose	
 	private SimpleTemplateFormSpec formSpec;
@@ -52,19 +52,19 @@ public class SimpleTemplateJsonParent implements Serializable {
 		this.templateId = templateId;
 	}
 
-	public Integer getClientId() {
-		return clientId;
-	}
-
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
-
 	public String getResponseType() {
 		return responseType;
 	}
 
 	public void setResponseType(String responseType) {
 		this.responseType = responseType;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 }

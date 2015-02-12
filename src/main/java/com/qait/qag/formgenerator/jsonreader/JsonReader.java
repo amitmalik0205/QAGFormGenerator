@@ -44,7 +44,7 @@ public class JsonReader {
 				/*Type type = new TypeToken<List<SimpleTemplateQuestionChoice>>() {}.getType();
 				List<SimpleTemplateQuestionChoice> choices = new Gson().fromJson(str, type);*/
 				
-				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent, "123456");
+				ITemplateFrontController frontController = new SimpleTemplateFrontController(jsonParent);
 				
 				String errors = frontController.validateFormData();
 				

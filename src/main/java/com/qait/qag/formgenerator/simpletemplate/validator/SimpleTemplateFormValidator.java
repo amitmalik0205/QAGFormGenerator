@@ -19,13 +19,15 @@ public class SimpleTemplateFormValidator {
 	private Integer digits = null;
 
 	private SimpleTemplateJsonParent jsonParent;
+	
 
 	public SimpleTemplateFormValidator(SimpleTemplateJsonParent jsonParent) {
 
 		this.jsonParent = jsonParent;
 	}
+	
 
-	public String validateKey(String key) {
+	public String validateKey() {
 
 		StringBuilder errors = new StringBuilder();
 
@@ -33,7 +35,7 @@ public class SimpleTemplateFormValidator {
 
 		IClientDao clientDao = new ClientDaoImpl();
 
-		client = clientDao.getClientByKey(key);
+		client = clientDao.getClientByKey(jsonParent.getKey());
 
 		if (client == null || (client != null && client.getId() == 0)) {
 
@@ -44,11 +46,12 @@ public class SimpleTemplateFormValidator {
 		return errors.toString();
 	}
 
+	
 	public String validateJson() {
 
 		StringBuilder errors = new StringBuilder();
 
-		Integer templateId = jsonParent.getTemplateId();
+		/*Integer templateId = jsonParent.getTemplateId();
 
 		if (templateId == null) {
 
@@ -56,17 +59,7 @@ public class SimpleTemplateFormValidator {
 					.getValidationProperty("SimpleTemplateJsonParent.templateId.empty"));
 
 			errors.append("\n");
-		}
-
-		Integer clientId = jsonParent.getClientId();
-
-		if (clientId == null) {
-
-			errors.append(SimpleTemplatePropertiesFileReaderUtil
-					.getValidationProperty("SimpleTemplateJsonParent.clientId.empty"));
-
-			errors.append("\n");
-		}
+		}*/
 
 		SimpleTemplateFormSpec formSpec = jsonParent.getFormSpec();
 
@@ -80,6 +73,7 @@ public class SimpleTemplateFormValidator {
 		return errors.toString();
 	}
 
+	
 	private void validateSimpleTemplateQuestionLabels(
 			List<SimpleTemplateQuestionChoice> question_opts,
 			StringBuilder errors) {
@@ -118,7 +112,7 @@ public class SimpleTemplateFormValidator {
 				errors.append(SimpleTemplatePropertiesFileReaderUtil
 						.getValidationProperty("SimpleTemplateQuestionChoice.questions.label"));
 
-				errors.append("\n");
+				errors.append(", ");
 
 				break;
 			} else {
@@ -139,7 +133,7 @@ public class SimpleTemplateFormValidator {
 					.getValidationProperty("SimpleTemplateQuestionChoice.questions.choice")
 					+ " " + counter);
 
-			errors.append("\n");
+			errors.append(", ");
 
 		} else {
 
@@ -151,10 +145,11 @@ public class SimpleTemplateFormValidator {
 						.getValidationProperty("SimpleTemplateQuestionChoice.questions.choice")
 						+ " " + counter);
 
-				errors.append("\n");
+				errors.append(", ");
 			}
 		}
 	}
+	
 
 	private void validateSimpleTemplateQuestionChoiceList(
 			List<SimpleTemplateQuestionChoice> question_opts,
@@ -166,7 +161,7 @@ public class SimpleTemplateFormValidator {
 			errors.append(SimpleTemplatePropertiesFileReaderUtil
 					.getValidationProperty("SimpleTemplateQuestionChoice.empty"));
 
-			errors.append("\n");
+			errors.append(", ");
 
 		} else {
 
@@ -177,7 +172,7 @@ public class SimpleTemplateFormValidator {
 				errors.append(SimpleTemplatePropertiesFileReaderUtil
 						.getValidationProperty("SimpleTemplateQuestionChoice.questions.count"));
 
-				errors.append("\n");
+				errors.append(", ");
 			}
 
 			validateSimpleTemplateQuestionLabels(question_opts, errors);
@@ -191,6 +186,7 @@ public class SimpleTemplateFormValidator {
 			}
 		}
 	}
+	
 
 	private void validateSimpleTemplateQuestionSection(
 			SimpleTemplateQuestionSection questionSection, StringBuilder errors) {
@@ -199,7 +195,7 @@ public class SimpleTemplateFormValidator {
 			errors.append(SimpleTemplatePropertiesFileReaderUtil
 					.getValidationProperty("SimpleTemplateQuestionSection.empty"));
 
-			errors.append("\n");
+			errors.append(", ");
 
 		} else {
 
@@ -210,7 +206,7 @@ public class SimpleTemplateFormValidator {
 				errors.append(SimpleTemplatePropertiesFileReaderUtil
 						.getValidationProperty("SimpleTemplateQuestionSection.count.empty"));
 
-				errors.append("\n");
+				errors.append(", ");
 
 			} else {
 
@@ -219,6 +215,7 @@ public class SimpleTemplateFormValidator {
 			}
 		}
 	}
+	
 
 	private void validateSimpleTemplateSectionTopRight(
 			SimpleTemplateSectionTopRight topRight, StringBuilder errors) {
@@ -239,7 +236,7 @@ public class SimpleTemplateFormValidator {
 				errors.append(SimpleTemplatePropertiesFileReaderUtil
 						.getValidationProperty("SimpleTemplateSectionTopRight.choices"));
 
-				errors.append("\n");
+				errors.append(", ");
 
 			} else {
 
@@ -250,12 +247,13 @@ public class SimpleTemplateFormValidator {
 					errors.append(SimpleTemplatePropertiesFileReaderUtil
 							.getValidationProperty("SimpleTemplateSectionTopRight.digits"));
 
-					errors.append("\n");
+					errors.append(", ");
 				}
 			}
 		}
 	}
 
+	
 	private void validateFormSpec(SimpleTemplateFormSpec formSpec,
 			StringBuilder errors) {
 
@@ -264,7 +262,7 @@ public class SimpleTemplateFormValidator {
 			errors.append(SimpleTemplatePropertiesFileReaderUtil
 					.getValidationProperty("SimpleTemplateJsonParent.formSpec.empty"));
 
-			errors.append("\n");
+			errors.append(", ");
 
 		} else {
 
@@ -275,6 +273,7 @@ public class SimpleTemplateFormValidator {
 					formSpec.getSections_topright(), errors);
 		}
 	}
+	
 
 	private void validateSimpleTemplateInstance(
 			List<SimpleTemplateInstance> instances, StringBuilder errors) {
@@ -284,7 +283,7 @@ public class SimpleTemplateFormValidator {
 			errors.append(SimpleTemplatePropertiesFileReaderUtil
 					.getValidationProperty("SimpleTemplateInstance.empty"));
 
-			errors.append("\n");
+			errors.append(", ");
 
 		} else {
 
@@ -303,7 +302,7 @@ public class SimpleTemplateFormValidator {
 					errors.append(SimpleTemplatePropertiesFileReaderUtil
 							.getValidationProperty("SimpleTemplateInstance.studentId.empty"));
 
-					errors.append("\n");
+					errors.append(", ");
 
 				} else {
 
@@ -319,7 +318,7 @@ public class SimpleTemplateFormValidator {
 										.getValidationProperty("SimpleTemplateInstance.studentId.digits.2")
 								+ " " + counter);
 
-						errors.append("\n");
+						errors.append(", ");
 					}
 				}
 
@@ -328,7 +327,7 @@ public class SimpleTemplateFormValidator {
 					errors.append(SimpleTemplatePropertiesFileReaderUtil
 							.getValidationProperty("SimpleTemplateInstance.top.empty"));
 
-					errors.append("\n");
+					errors.append(", ");
 				}
 
 				if (QAGFormGeneratorUtil.checkForEmptyString(bottom)) {
@@ -336,7 +335,7 @@ public class SimpleTemplateFormValidator {
 					errors.append(SimpleTemplatePropertiesFileReaderUtil
 							.getValidationProperty("SimpleTemplateInstance.bottom.empty"));
 
-					errors.append("\n");
+					errors.append(", ");
 				}
 			}
 		}

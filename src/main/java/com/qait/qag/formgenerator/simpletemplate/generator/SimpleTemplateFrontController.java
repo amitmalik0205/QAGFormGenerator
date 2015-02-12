@@ -7,10 +7,13 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qait.qag.formgenerator.common.dao.ClientDaoImpl;
 import com.qait.qag.formgenerator.common.dao.FormDaoImpl;
+import com.qait.qag.formgenerator.common.dao.IClientDao;
 import com.qait.qag.formgenerator.common.dao.IFormDao;
 import com.qait.qag.formgenerator.common.enums.ResponseType;
 import com.qait.qag.formgenerator.common.util.QAGFormGeneratorUtil;
+import com.qait.qag.formgenerator.db.domain.Client;
 import com.qait.qag.formgenerator.db.domain.Form;
 import com.qait.qag.formgenerator.db.domain.FormPageDetail;
 import com.qait.qag.formgenerator.domain.FormHashCode;
@@ -30,20 +33,19 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 	
 	private SimpleTemplateJsonParent jsonParent;
 	
-	private String key;
-	
 	private IFormGenerator formGenerator;
 	
 	private int hashCode;
 	
 	private IFormDao formDao;
 	
+	private Client client;
 	
-	public SimpleTemplateFrontController(SimpleTemplateJsonParent jsonParent, String key) {
+	
+	public SimpleTemplateFrontController(SimpleTemplateJsonParent jsonParent) {
 		
 		this.jsonParent = jsonParent;
-		
-		this.key = key;
+	
 	}
 	
 	
@@ -52,7 +54,7 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		SimpleTemplateFormValidator validator = new SimpleTemplateFormValidator(jsonParent);
 		
-		String errors = validator.validateKey(key);
+		String errors = validator.validateKey();
 		
 		//If key is validate then validate json
 		if(QAGFormGeneratorUtil.checkForEmptyString(errors)) {
@@ -70,6 +72,10 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		formGenerator = new SimpleTemplateFormGenerator(jsonParent);
 		
 		formDao = new FormDaoImpl();
+		
+		IClientDao clientDao = new ClientDaoImpl();
+
+		client = clientDao.getClientByKey(jsonParent.getKey());
 		
 		long formId = -1;
 		
@@ -153,7 +159,7 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		FormHashCode hashCode = new FormHashCode();
 		
-		hashCode.setClientId(jsonParent.getClientId());
+		hashCode.setClientId(client.getId());
 		
 		hashCode.setTemplateId(jsonParent.getTemplateId());
 		
@@ -167,7 +173,7 @@ public class SimpleTemplateFrontController implements ITemplateFrontController {
 		
 		Form form = new Form();
 		
-		form.setClientId(jsonParent.getClientId());
+		form.setClientId(client.getId());
 		
 		form.setTemplateId(jsonParent.getTemplateId());
 		
