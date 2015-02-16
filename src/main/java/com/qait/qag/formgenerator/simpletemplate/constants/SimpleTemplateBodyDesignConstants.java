@@ -139,35 +139,35 @@ public interface SimpleTemplateBodyDesignConstants {
 	//Number of circles to repersent a number
 	int CIRCLES_FOR_A_NUMBER = 2;
 	
-	String DRAW_ZERO = "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_ZERO = "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_ONE = "<img src=\""+ONE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_ONE = "<img src='"+ONE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_TWO = "<img src=\""+TWO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_TWO = "<img src='"+TWO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_THREE = "<img src=\""+THREE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_THREE = "<img src='"+THREE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_FOUR = "<img src=\""+FOUR_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_FOUR = "<img src='"+FOUR_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_FIVE = "<img src=\""+FIVE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ZERO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_FIVE = "<img src='"+FIVE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ZERO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_SIX = "<img src=\""+FIVE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+ONE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_SIX = "<img src='"+FIVE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+ONE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_SEVEN = "<img src=\""+FIVE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+TWO_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_SEVEN = "<img src='"+FIVE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+TWO_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_EIGHT = "<img src=\""+FIVE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+THREE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_EIGHT = "<img src='"+FIVE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+THREE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
-	String DRAW_NINE = "<img src=\""+FIVE_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\"> "
-			+ "<img src=\""+FOUR_IMAGE_PATH+"\" style=\"width: 22px; height: 22px; margin: 6px 6px 0px; float: left;\">";
+	String DRAW_NINE = "<img src='"+FIVE_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'> "
+			+ "<img src='"+FOUR_IMAGE_PATH+"' style='width: 22px; height: 22px; margin: 6px 6px 0px; float: left;'>";
 	
 	
 	String FOOTER_DIV_STYLE = "width:100%";

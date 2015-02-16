@@ -109,11 +109,11 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 				
 				formPageDetail.setPageNumber(currentPageDetail.getPageNo());
 				
-				//formHtmlStr = new StringBuilder("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body>");
+				//formHtmlStr = new StringBuilder("<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'></head><body>");
 				
 				formHtmlStr = new StringBuilder("");
 				
-				formHtmlStr.append("<div id=\"container\" style=\""+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"\">");
+				formHtmlStr.append("<div id='container' style='"+SimpleTemplateGeneralConstants.CONTAINER_DIV_STYLE+"'>");
 				
 				formHeaderHtmlStr = new StringBuilder("");
 				
@@ -162,7 +162,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createHeaderSection() {
 		
-		formHeaderHtmlStr.append("<div id=\"header-div\" style=\""+SimpleTemplateHeaderDesignConstants.HEADER_DIV_STYLE+"\">");
+		formHeaderHtmlStr.append("<div id='header-div' style='"+SimpleTemplateHeaderDesignConstants.HEADER_DIV_STYLE+"'>");
 		
 		createStudentNameSection();
 		
@@ -177,7 +177,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createStudentNameSection() {
 		
-		formHeaderHtmlStr.append("<div id=\"student-name-div\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_NAME_DIV_STYLE+"\">");
+		formHeaderHtmlStr.append("<div id='student-name-div' style='"+SimpleTemplateHeaderDesignConstants.STUDENT_NAME_DIV_STYLE+"'>");
 		
 		formHeaderHtmlStr.append(top);
 		
@@ -190,9 +190,9 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createStudentIdSection() {
 		
-		formHeaderHtmlStr.append("<div id=\"student-id-div\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_DIV_STYLE+"\">");
+		formHeaderHtmlStr.append("<div id='student-id-div' style='"+SimpleTemplateHeaderDesignConstants.STUDENT_ID_DIV_STYLE+"'>");
 		
-		formHeaderHtmlStr.append("<div id=\"student-id-label\">"+sections_topright.getLabel()+"</div>");
+		formHeaderHtmlStr.append("<div id='student-id-label'>"+sections_topright.getLabel()+"</div>");
 		
 		createStudentIdTable();
 		
@@ -205,15 +205,15 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createStudentIdTable() {
 		
-		formHeaderHtmlStr.append("<div id=\"student-id-table-wrapper-div\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_WRAPPER_DIV_STYLE+"\">");
+		formHeaderHtmlStr.append("<div id='student-id-table-wrapper-div' style='"+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_WRAPPER_DIV_STYLE+"'>");
 		
 		//Start Table
-		formHeaderHtmlStr.append("<table id=\"student-id-table\" style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_STYLE+"\">");
+		formHeaderHtmlStr.append("<table id='student-id-table' style='"+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_STYLE+"'>");
 		formHeaderHtmlStr.append("<tr>");
 				
 		char studentIdArr[] = currentStudentId.toCharArray();
 		for(char ch : studentIdArr) {
-			formHeaderHtmlStr.append("<td style=\""+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_TD_STYLE+"\">");
+			formHeaderHtmlStr.append("<td style='"+SimpleTemplateHeaderDesignConstants.STUDENT_ID_TABLE_TD_STYLE+"'>");
 			formHeaderHtmlStr.append(ch);
 			formHeaderHtmlStr.append("</td>");
 		}
@@ -232,7 +232,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		formBodyHtmlStr = new StringBuilder("");
 		
-		formBodyHtmlStr.append("<div id=\"body-div\" style=\""+SimpleTemplateBodyDesignConstants.BODY_DIV_STYLE+"\">");
+		formBodyHtmlStr.append("<div id='body-div' style='"+SimpleTemplateBodyDesignConstants.BODY_DIV_STYLE+"'>");
 		
 		createTopDivOfBody();
 		
@@ -248,7 +248,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createTopDivOfBody() {
 		
-		formBodyHtmlStr.append("<div id=\"top-div\" style=\""+SimpleTemplateBodyDesignConstants.TOP_DIV_STYLE+"\">");
+		formBodyHtmlStr.append("<div id='top-div' style='"+SimpleTemplateBodyDesignConstants.TOP_DIV_STYLE+"'>");
 		
 		createStudentIdOptionsSection();
 		
@@ -268,9 +268,9 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		
 		if(getHeightOfStudentIdOptionSection() > getHeightOfQuestionOptionSection()) {
-			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"\">");
+			formStudentIdOptionsHtmlStr.append("<div id='student-id-option-container' style='"+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_STYLE+"'>");
 		} else {
-			formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_NO_BORDER_STYLE+"\">");
+			formStudentIdOptionsHtmlStr.append("<div id='student-id-option-container' style='"+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_CONTAINER_NO_BORDER_STYLE+"'>");
 		}		
 		
 		char studentIdArr[] = currentStudentId.toCharArray();
@@ -282,10 +282,10 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 			//For last cloumn remove the dotted border
 			if(i == student_id_length-1) {
 				
-				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_NO_BORDER_STYLE+"\">");
+				formStudentIdOptionsHtmlStr.append("<div id='student-id-option-column-container' style='"+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_NO_BORDER_STYLE+"'>");
 			} else {
 				
-				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option-column-container\" style=\""+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"\">");				
+				formStudentIdOptionsHtmlStr.append("<div id='student-id-option-column-container' style='"+SimpleTemplateBodyDesignConstants.STUDENT_ID_OPTION_COLUMN_CONTAINER_STYLE+"'>");				
 			}
 			
 			char char_of_student_id = studentIdArr[i];
@@ -299,7 +299,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 								
 				} else {
 					//Draw text circle
-					formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID+"\">");
+					formStudentIdOptionsHtmlStr.append("<div id='student-id-option' style='"+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID+"'>");
 					formStudentIdOptionsHtmlStr.append(studentOptionsArr[j]);
 					formStudentIdOptionsHtmlStr.append("</div>");
 				}
@@ -310,7 +310,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 				formStudentIdOptionsHtmlStr.append(SimpleTemplateBodyDesignConstants.CIRCLE_BLACK_STYLE_BOTTOM);
 			} else {
 				//Draw text circle
-				formStudentIdOptionsHtmlStr.append("<div id=\"student-id-option\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID_BOTTOM+"\">");
+				formStudentIdOptionsHtmlStr.append("<div id='student-id-option' style='"+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_STUDENT_ID_BOTTOM+"'>");
 				formStudentIdOptionsHtmlStr.append(studentOptionsArr[j]);
 				formStudentIdOptionsHtmlStr.append("</div>");
 			}
@@ -344,7 +344,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		questionOptionDivStyle.append("width:"+avilable_space_for_question_section+"px");
 		
-		formQuestionOptionsHtmlStr.append("<div id=\"question-option-div\" style=\""+questionOptionDivStyle.toString()+"\">");
+		formQuestionOptionsHtmlStr.append("<div id='question-option-div' style='"+questionOptionDivStyle.toString()+"'>");
 		
 		List<ColumnDetail> columnDetailList = currentPageDetail.getColumnList();
 		
@@ -379,7 +379,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		questionOptionColumnStyle.append("width:"+width_of_question_option_column+"px");
 		
-		formQuestionOptionsHtmlStr.append("<div id=\"question-option-column-div\" style=\""+questionOptionColumnStyle.toString()+"\">");
+		formQuestionOptionsHtmlStr.append("<div id='question-option-column-div' style='"+questionOptionColumnStyle.toString()+"'>");
 		
 		List<SimpleTemplateQuestionChoice> question_opts = questionSection.getQuestion_opts();
 	
@@ -414,7 +414,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 
 		questionOptionRowStyle.append("min-width:" + min_width + "px");
 		
-		formQuestionOptionsHtmlStr.append("<div id=\"question-option-row-div\" style=\""+questionOptionRowStyle.toString()+"\">");
+		formQuestionOptionsHtmlStr.append("<div id='question-option-row-div' style='"+questionOptionRowStyle.toString()+"'>");
 		
 		//If label is not provided in JSON then default label is 1,2,3..
 		String questionLabel = questionChoice.getLabel();
@@ -442,7 +442,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createQuestionOptionLabel(String label) {
 		
-		formQuestionOptionsHtmlStr.append("<div id=\"question-option-column-div\" style=\""+SimpleTemplateBodyDesignConstants.QUESTION_LABEL_DIV_STYLE+"\">");
+		formQuestionOptionsHtmlStr.append("<div id='question-option-column-div' style='"+SimpleTemplateBodyDesignConstants.QUESTION_LABEL_DIV_STYLE+"'>");
 		
 		formQuestionOptionsHtmlStr.append(label);
 		
@@ -452,7 +452,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createQuestionOptionCircle(String text) {
 		
-		formQuestionOptionsHtmlStr.append("<div id=\"question-option-column-div\" style=\""+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_QUESTION+"\">");
+		formQuestionOptionsHtmlStr.append("<div id='question-option-column-div' style='"+SimpleTemplateBodyDesignConstants.CIRCLE_WITH_TEXT_STYLE_FOR_QUESTION+"'>");
 		
 		formQuestionOptionsHtmlStr.append(text);
 		
@@ -665,7 +665,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createBottomOfBodyDiv() {
 	
-		formBodyHtmlStr.append("<div id=\"bottom-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_DIV_STYLE+"\">");
+		formBodyHtmlStr.append("<div id='bottom-div' style='"+SimpleTemplateBodyDesignConstants.BOTTOM_DIV_STYLE+"'>");
 		
 		createFromIdLabel();
 		
@@ -684,7 +684,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		formIdHtmlStr = new StringBuilder("");
 		
-		formIdHtmlStr.append("<div id=\"bottom-label-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_LABEL_DIV_STYLE+"\">");
+		formIdHtmlStr.append("<div id='bottom-label-div' style='"+SimpleTemplateBodyDesignConstants.BOTTOM_LABEL_DIV_STYLE+"'>");
 		
 		formIdHtmlStr.append(SimpleTemplateBodyDesignConstants.BOTTOM_LABEL_DIV_TEXT);
 		
@@ -697,7 +697,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	 */
 	private void createFormId() {
 		
-		formIdHtmlStr.append("<div id=\"bottom-identifier-div\" style=\""+SimpleTemplateBodyDesignConstants.BOTTOM_IDENTIFIER_DIV_STYLE+"\">");
+		formIdHtmlStr.append("<div id='bottom-identifier-div' style='"+SimpleTemplateBodyDesignConstants.BOTTOM_IDENTIFIER_DIV_STYLE+"'>");
 		
 		createTemplateIdSection();
 		
@@ -713,7 +713,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createTemplateIdSection() {
 		
-		formIdHtmlStr.append("<div id=\"template-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.TEMPLATE_ID_WRAPPER_DIV_STYLE+"\">");
+		formIdHtmlStr.append("<div id='template-id-wrapper-div' style='"+SimpleTemplateBodyDesignConstants.TEMPLATE_ID_WRAPPER_DIV_STYLE+"'>");
 		
 		createNumberCircles(SimpleTemplateBodyDesignConstants.TEMPLATE_ID_LENGTH, jsonParent.getTemplateId());
 		
@@ -723,7 +723,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createClientIdSection() {
 		
-		formIdHtmlStr.append("<div id=\"client-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.CLIENT_ID_WRAPPER_DIV_STYLE+"\">");		
+		formIdHtmlStr.append("<div id='client-id-wrapper-div' style='"+SimpleTemplateBodyDesignConstants.CLIENT_ID_WRAPPER_DIV_STYLE+"'>");		
 		
 		IClientDao clientDao = new ClientDaoImpl();
 
@@ -737,7 +737,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createFormIdSection() {
 		
-		formIdHtmlStr.append("<div id=\"form-id-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.FORM_ID_WRAPPER_DIV_STYLE+"\">");		
+		formIdHtmlStr.append("<div id='form-id-wrapper-div' style='"+SimpleTemplateBodyDesignConstants.FORM_ID_WRAPPER_DIV_STYLE+"'>");		
 		
 		createNumberCircles(SimpleTemplateBodyDesignConstants.FORM_ID_LENGHT, formId);
 		
@@ -747,7 +747,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createPageNumberSection() {
 		
-		formIdHtmlStr.append("<div id=\"page-wrapper-div\" style=\""+SimpleTemplateBodyDesignConstants.PAGE_WRAPPER_DIV_STYLE+"\">");		
+		formIdHtmlStr.append("<div id='page-wrapper-div' style='"+SimpleTemplateBodyDesignConstants.PAGE_WRAPPER_DIV_STYLE+"'>");		
 		
 		createNumberCircles(SimpleTemplateBodyDesignConstants.PAGE_NUMBER_LENGTH, currentPageDetail.getPageNo());
 		
@@ -790,7 +790,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 		
 		for(int i=0; i<length; i++) {
 			
-			formIdHtmlStr.append("<div id=\"number-container\" style=\""+SimpleTemplateBodyDesignConstants.NUMBER_CONTAINER_DIV_STYLE+"\">");
+			formIdHtmlStr.append("<div id='number-container' style='"+SimpleTemplateBodyDesignConstants.NUMBER_CONTAINER_DIV_STYLE+"'>");
 			
 			formIdHtmlStr.append(numbersMap.get(new Character(chrArr[i]).toString()));
 			
@@ -801,7 +801,7 @@ public class SimpleTemplateFormGenerator implements IFormGenerator {
 	
 	private void createFooter() {
 		
-		formFooterHtmlStr.append("<div id=\"footer-div\" style=\""+SimpleTemplateBodyDesignConstants.FOOTER_DIV_STYLE+"\">");
+		formFooterHtmlStr.append("<div id='footer-div' style='"+SimpleTemplateBodyDesignConstants.FOOTER_DIV_STYLE+"'>");
 		
 		formFooterHtmlStr.append(bottom);
 		

@@ -314,6 +314,7 @@ public class SimpleTemplateFormValidator {
 								.getValidationProperty("SimpleTemplateInstance.studentId.digits.1")
 								+ " "
 								+ digits
+								+ " "
 								+ SimpleTemplatePropertiesFileReaderUtil
 										.getValidationProperty("SimpleTemplateInstance.studentId.digits.2")
 								+ " " + counter);
